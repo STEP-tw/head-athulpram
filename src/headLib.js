@@ -1,11 +1,11 @@
 const parseInput=function(headParams){
-  result = {
+  parameters = {
     lines : 10,
     bytes : undefined,
     files : []
   }
-  result.files=result.files.concat(headParams);
-  return result;
+  parameters.files=parameters.files.concat(headParams);
+  return parameters;
 }
 
 exports.parseInput = parseInput;
