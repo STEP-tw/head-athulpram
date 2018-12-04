@@ -1,7 +1,7 @@
 const parseInput=function(headParams){
   let parameters = {
-    lines : 10,
-    bytes : undefined,
+    type : "n",
+    count : 10,
     files : []
   }
   parameters.files=parameters.files.concat(headParams);
