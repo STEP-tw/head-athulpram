@@ -1,3 +1,11 @@
+const fs = require("fs");
+const {parseInput,head} = require("./src/headLib.js");
+
+const main = function(){
+  let headParams = parseInput(process.argv.slice(2));
+  console.log(head(fs,headParams));
+}
+main();
 /* 
   Usage:
   node ./head.js file1
