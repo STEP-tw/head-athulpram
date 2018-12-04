@@ -27,6 +27,14 @@ describe("selectTopLines",function(){
       deepEqual(selectTopLines(inputString,10),"1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n 10");
     })
 
+    it("should return top 10 lines of a string",function(){
+      deepEqual(selectTopLines(inputString,1),"1");
+    })
+
+    it("should return empty string when number of lines is 0",function(){
+      deepEqual(selectTopLines(inputString,0),"");
+    })
+
   })
 
 })
