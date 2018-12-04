@@ -1,5 +1,5 @@
 const parseInput=function(headParams){
-  parameters = {
+  let parameters = {
     lines : 10,
     bytes : undefined,
     files : []
@@ -8,4 +8,10 @@ const parseInput=function(headParams){
   return parameters;
 }
 
+const selectTopLines = function(fileContents,numberOfLines){
+  fileContents=fileContents.split("\n");
+  return fileContents.slice(0,numberOfLines).join("\n");
+}
+
 exports.parseInput = parseInput;
+exports.selectTopLines = selectTopLines;
