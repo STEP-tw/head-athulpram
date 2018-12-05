@@ -1,4 +1,4 @@
-const {parseInput,selectTopLines} = require("../src/headLib.js");
+const {parseInput,selectTopLines,selectFirstNBytes} = require("../src/headLib.js");
 const {deepEqual} = require("assert");
 
 describe("parseInput", function() {
@@ -37,4 +37,11 @@ describe("selectTopLines",function(){
 
   })
 
+})
+
+describe("selectFirstNBytes",function(){
+  let inputString = "this is first line \n this is second line";
+  it("should return first 5 bytes for the input of 5 number of bytes",function(){
+    deepEqual(selectFirstNBytes(inputString,5),"this ")
+  })
 })
