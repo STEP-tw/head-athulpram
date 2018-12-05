@@ -29,11 +29,14 @@ const selectFirstNBytes = function(fileContents,numberOfBytes){
   fileContents=fileContents.split("");
   return fileContents.slice(0,numberOfBytes).join("");
 }
+const isFileExists=function(fs,file){
+  return fs.existsSync(file);
+}
 
 const selectFileContents = function(fs,headParams,selectContents){
   let headOfFiles = [];
   for(file of headParams.files){
-    let currentFileHead = "";
+    let currentFileHead="";
     if(headParams.files.length>1){
       currentFileHead=("==> "+file+" <==\n");
     }
@@ -47,10 +50,28 @@ const selectFileContents = function(fs,headParams,selectContents){
   return headOfFiles.join("\n")
 }
 
+const validateCount = function({count,type}){
+  optionCountName = {
+    c : "byte",
+    n : "line"
+  }
+  if(count<1||isNaN(count)){
+    return{
+      message : "head: illegal "+optionCountName[type]+" count -- "+count,
+      status : false
+    };
+  }
+  return {status : true, message : ""};
+}
+
 const head = function(fs,headParams){
   let headOptions = {
     "n" : selectTopLines,
     "c" : selectFirstNBytes
+  }
+  countValidation=validateCount(headParams);
+  if(!countValidation.status){
+    return countValidation.message;
   }
   return headOfFiles=selectFileContents(fs,headParams,headOptions[headParams.type]);
 }
@@ -59,3 +80,4 @@ exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
 exports.head = head;
+exports.validateCount = validateCount;

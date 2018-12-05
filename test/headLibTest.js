@@ -1,4 +1,4 @@
-const {parseInput,selectTopLines,selectFirstNBytes} = require("../src/headLib.js");
+const {parseInput,selectTopLines,selectFirstNBytes,validateCount} = require("../src/headLib.js");
 const {deepEqual} = require("assert");
 
 describe("parseInput", function() {
@@ -66,3 +66,16 @@ describe("selectFirstNBytes",function(){
     deepEqual(selectFirstNBytes(inputString,0),"");
   })
 })
+
+describe("validate count",function(){
+  it("should return an object with status true and a empty message for a valid count",function(){
+    deepEqual(validateCount({type :"c",count : 1}),{status : true,message : ""});
+    deepEqual(validateCount({type :"n",count : 2}),{status : true,message : ""});
+  });
+
+  it("should return an object with status false and error message in message",function(){
+    deepEqual(validateCount({type : "c",count : -1}),{status : false,message : "head: illegal byte count -- -1"});
+    deepEqual(validateCount({type :"n",count : -2}),{status : false,message : "head: illegal line count -- -2"});
+
+  });
+});
