@@ -4,6 +4,7 @@ const parseInput=function(headParams){
     count : 10,
     files : []
   }
+
   parameters.files=parameters.files.concat(headParams);
   return parameters;
 }
@@ -34,15 +35,12 @@ const selectFileContents = function(fs,headParams,selectContents){
 }
 
 const head = function(fs,headParams){
-  let headOfFiles = "";
-  if(headParams.type=="c"){
-    headOfFiles=selectFileContents(fs,headParams,selectFirstNBytes);
+  let headOptions = {
+    "n" : selectTopLines,
+    "c" : selectFirstNBytes
   }
-  if(headParams.type=="n"){
-    headOfFiles=selectFileContents(fs,headParams,selectTopLines);
-  }
-  return headOfFiles;
- }
+  return headOfFiles=selectFileContents(fs,headParams,headOptions[headParams.type]);
+}
 
 exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
