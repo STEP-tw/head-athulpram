@@ -1,9 +1,8 @@
 const fs = require("fs");
-const {parseInput,head} = require("./src/headLib.js");
+const {head} = require("./src/headLib.js");
 
 const main = function(){
-  let headParams = parseInput(process.argv.slice(2));
-  console.log(head(fs,headParams));
+  console.log(head(fs,process.argv.slice(2)));
 }
 main();
 /* 

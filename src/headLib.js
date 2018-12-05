@@ -9,7 +9,7 @@ const parseWithOptions = function(headParams){
   if(headParams[0]=="-c"||headParams[0]=="-n"){
     return createParameterObject(headParams[0][1],headParams[1],headParams.slice(2));
   }
-  if(!isNaN(headParams[0].slice(1))){
+  if(!isNaN(Math.abs(headParams[0]))){
     return createParameterObject("n",Math.abs(headParams[0]),headParams.slice(1));
   }
     return createParameterObject(headParams[0][1],headParams[0].slice(2),headParams.slice(1));
@@ -70,7 +70,8 @@ const validateCount = function({count,type}){
   return {status : true, message : ""};
 }
 
-const head = function(fs,headParams){
+const head = function(fs,inputArgs){
+  let headParams = parseInput(inputArgs)
   let headOptions = {
     "n" : selectTopLines,
     "c" : selectFirstNBytes
