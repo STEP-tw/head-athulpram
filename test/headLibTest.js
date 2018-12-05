@@ -43,5 +43,10 @@ describe("selectFirstNBytes",function(){
   let inputString = "this is first line \n this is second line";
   it("should return first 5 bytes for the input of 5 number of bytes",function(){
     deepEqual(selectFirstNBytes(inputString,5),"this ")
+    deepEqual(selectFirstNBytes(inputString,15),"this is first l")
+  })
+
+  it("should return empty string when 0 byte number is given",function(){
+    deepEqual(selectFirstNBytes(inputString,0),"");
   })
 })
