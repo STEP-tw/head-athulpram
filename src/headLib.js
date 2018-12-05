@@ -12,7 +12,7 @@ const parseWithOptions = function(headParams){
   if(!isNaN(headParams[0].slice(1))){
     return createParameterObject("n",Math.abs(headParams[0]),headParams.slice(1));
   }
-  return createParameterObject(headParams[0][1],headParams[0].slice(2),headParams.slice(1));
+    return createParameterObject(headParams[0][1],headParams[0].slice(2),headParams.slice(1));
 }
 
 const createParameterObject = function(type,count,files){
@@ -75,6 +75,10 @@ const head = function(fs,headParams){
     "n" : selectTopLines,
     "c" : selectFirstNBytes
   }
+  if(headParams.type!="c" && headParams.type!="n"){
+    return "head: illegal option -- "+headParams.type+"\nusage: head [-n lines | -c bytes] [file ...]"
+  }
+
   countValidation=validateCount(headParams);
   if(!countValidation.status){
     return countValidation.message;
