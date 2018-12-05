@@ -1,12 +1,31 @@
 const parseInput=function(headParams){
-  let parameters = {
-    type : "n",
-    count : 10,
-    files : []
+  if(headParams[0][0]=="-"){
+    return parseWithOptions(headParams);
   }
-
-  parameters.files=parameters.files.concat(headParams);
-  return parameters;
+  return {
+    type :"n",
+    count : 10,
+    files : headParams
+  } 
+}
+const parseWithOptions = function(headParams){
+  if(headParams[0]=="-c"||headParams[0]=="-n"){
+    return { type : headParams[0][1],
+      count : headParams[1],
+      files : headParams.slice(2)
+    }
+  }
+  if(!isNaN(headParams[0].slice(1))){
+    return {type : "n",
+      count : Math.abs(headParams[0]),
+      files : headParams.slice(1)
+    }
+  }
+  return {
+    type:headParams[0][1],
+    count : headParams[0].slice(2),
+    files :headParams.slice(1)
+  }
 }
 
 const selectTopLines = function(fileContents,numberOfLines){
@@ -31,7 +50,10 @@ const selectFileContents = function(fs,headParams,selectContents){
     currentFileHead+=(selectContents(fileContents,headParams.count));
     headOfFiles.push(currentFileHead)
   }
-  return headOfFiles.join("\n\n")
+  if(headParams.type == "n"){
+    return headOfFiles.join("\n\n");
+  } 
+  return headOfFiles.join("\n")
 }
 
 const head = function(fs,headParams){
