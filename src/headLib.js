@@ -2,30 +2,21 @@ const parseInput=function(headParams){
   if(headParams[0][0]=="-"){
     return parseWithOptions(headParams);
   }
-  return {
-    type :"n",
-    count : 10,
-    files : headParams
-  } 
+  return createParameterObject("n",10,headParams);
 }
+
 const parseWithOptions = function(headParams){
   if(headParams[0]=="-c"||headParams[0]=="-n"){
-    return { type : headParams[0][1],
-      count : headParams[1],
-      files : headParams.slice(2)
-    }
+    return createParameterObject(headParams[0][1],headParams[1],headParams.slice(2));
   }
   if(!isNaN(headParams[0].slice(1))){
-    return {type : "n",
-      count : Math.abs(headParams[0]),
-      files : headParams.slice(1)
-    }
+    return createParameterObject("n",Math.abs(headParams[0]),headParams.slice(1));
   }
-  return {
-    type:headParams[0][1],
-    count : headParams[0].slice(2),
-    files :headParams.slice(1)
-  }
+  return createParameterObject(headParams[0][1],headParams[0].slice(2),headParams.slice(1));
+}
+
+const createParameterObject = function(type,count,files){
+  return {type,count,files};
 }
 
 const selectTopLines = function(fileContents,numberOfLines){
