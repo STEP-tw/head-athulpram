@@ -35,17 +35,23 @@ const isFileExists=function(fs,file){
 
 const selectFileContents = function(fs,headParams,selectContents){
   let headOfFiles = [];
+  let delimiter="";
   for(file of headParams.files){
-    let currentFileHead="";
-    if(headParams.files.length>1){
-      currentFileHead=("==> "+file+" <==\n");
+    headOfFiles.push("head: "+file+": No such file or directory");
+    if(isFileExists(fs,file)){
+      headOfFiles.pop();
+      let currentFileHead="";
+      if(headParams.files.length>1){
+        currentFileHead=(delimiter+"==> "+file+" <==\n");
+        delimiter="\n";
+      }
+      let fileContents=fs.readFileSync(file,"utf-8");
+      currentFileHead+=(selectContents(fileContents,headParams.count)); 
+      headOfFiles.push(currentFileHead)
     }
-    let fileContents=fs.readFileSync(file,"utf-8");
-    currentFileHead+=(selectContents(fileContents,headParams.count));
-    headOfFiles.push(currentFileHead)
   }
   if(headParams.type == "n"){
-    return headOfFiles.join("\n\n");
+    return headOfFiles.join("\n");
   } 
   return headOfFiles.join("\n")
 }
