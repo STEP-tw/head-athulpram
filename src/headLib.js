@@ -10,6 +10,7 @@ const parseInput=function(headParams){
 
 const selectTopLines = function(fileContents,numberOfLines){
   fileContents=fileContents.split("\n");
+  fileContents.splice(fileContents.length-1)
   return fileContents.slice(0,numberOfLines).join("\n");
 }
 
@@ -18,11 +19,30 @@ const selectFirstNBytes = function(fileContents,numberOfBytes){
   return fileContents.slice(0,numberOfBytes).join("");
 }
 
+const selectFileContents = function(fs,headParams,selectContents){
+  let headOfFiles = [];
+  for(file of headParams.files){
+    let currentFileHead = "";
+    if(headParams.files.length>1){
+      currentFileHead=("==> "+file+" <==\n");
+    }
+    let fileContents=fs.readFileSync(file,"utf-8");
+    currentFileHead+=(selectContents(fileContents,headParams.count));
+    headOfFiles.push(currentFileHead)
+  }
+  return headOfFiles.join("\n\n")
+}
 
 const head = function(fs,headParams){
-  let fileContents = fs.readFileSync(headParams.files[0],"utf-8");
-  return selectTopLines(fileContents,headParams.count);
-}
+  let headOfFiles = "";
+  if(headParams.type=="c"){
+    headOfFiles=selectFileContents(fs,headParams,selectFirstNBytes);
+  }
+  if(headParams.type=="n"){
+    headOfFiles=selectFileContents(fs,headParams,selectTopLines);
+  }
+  return headOfFiles;
+ }
 
 exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
