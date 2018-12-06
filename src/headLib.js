@@ -33,26 +33,23 @@ const isFileExists=function(fs,file){
   return fs.existsSync(file);
 }
 
-const selectFileContents = function(fs,headParams,selectContents){
+const selectFileContents = function(fileDetails,headParams,selectContents){
   let headOfFiles = [];
   let delimiter="";
-  for(file of headParams.files){
-    headOfFiles.push("head: "+file+": No such file or directory");
-    if(isFileExists(fs,file)){
-      headOfFiles.pop();
+  fileDetails.forEach(({name,exists,content})=>{
+    headOfFiles.push(content);
+    if(exists){
+      headOfFiles.pop(content);
       let currentFileHead="";
       if(headParams.files.length>1){
-        currentFileHead=(delimiter+"==> "+file+" <==\n");
+        currentFileHead=(delimiter+"==> "+name+" <==\n");
         delimiter="\n";
       }
-      let fileContents=fs.readFileSync(file,"utf-8");
-      currentFileHead+=(selectContents(fileContents,headParams.count)); 
+      currentFileHead+=(selectContents(content,headParams.count)); 
       headOfFiles.push(currentFileHead)
     }
   }
-  if(headParams.type == "c"){
-    return headOfFiles.join("");
-  } 
+  );
   return headOfFiles.join("\n")
 }
 
@@ -84,7 +81,25 @@ const head = function(fs,inputArgs){
   if(!countValidation.status){
     return countValidation.message;
   }
-  return headOfFiles=selectFileContents(fs,headParams,headOptions[headParams.type]);
+
+  fileDetails = getFileDetails(fs,headParams.files)
+
+  return headOfFiles=selectFileContents(fileDetails,headParams,headOptions[headParams.type]);
+}
+
+const getFileDetails = function(fs,headParams){
+  return headParams.map((file)=>{
+    fileDetails = {
+      name : file,
+      exists : false,
+      content : "head: "+file+": No such file or directory"
+    }
+    if(fs.existsSync(file)){
+      fileDetails.exists = true;
+      fileDetails.content = fs.readFileSync(file,"utf-8");
+    }
+    return fileDetails;
+  });
 }
 
 exports.parseInput = parseInput;
