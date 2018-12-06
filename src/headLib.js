@@ -29,9 +29,6 @@ const selectFirstNBytes = function(fileContents,numberOfBytes){
   fileContents=fileContents.split("");
   return fileContents.slice(0,numberOfBytes).join("");
 }
-const isFileExists=function(fs,file){
-  return fs.existsSync(file);
-}
 
 const selectFileContents = function(fileDetails,headParams,selectContents){
   let headOfFiles = [];
@@ -107,3 +104,5 @@ exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
 exports.head = head;
 exports.validateCount = validateCount;
+exports.parseWithOptions = parseWithOptions;
+exports.createParameterObject = createParameterObject;

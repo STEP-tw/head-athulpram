@@ -1,4 +1,11 @@
-const {parseInput,selectTopLines,selectFirstNBytes,validateCount} = require("../src/headLib.js");
+const {
+  createParameterObject,
+  parseInput,
+  selectTopLines,
+  selectFirstNBytes,
+  validateCount,
+  parseWithOptions
+} = require("../src/headLib.js");
 const {deepEqual} = require("assert");
 
 describe("parseInput", function() {
@@ -79,3 +86,35 @@ describe("validate count",function(){
 
   });
 });
+
+describe("parseWithOptions",function(){
+  it("should return an object with type n and count as given and rest as files in an input of array",function(){
+    deepEqual(parseWithOptions(["-n1","file1"]),{ type: 'n', count: '1', files: [ 'file1' ] });
+    deepEqual(parseWithOptions(["-n2","file1","file2"]),{ type: 'n', count: '2', files: [ 'file1' ,'file2'] })}
+  );
+  it("should return an object with type c and count as given and rest as files in an input of array",function(){
+    deepEqual(parseWithOptions(["-c1","file1"]),{ type: 'c', count: '1', files: [ 'file1' ] });
+    deepEqual(parseWithOptions(["-c2","file1","file2"]),{ type: 'c', count: '2', files: [ 'file1' ,'file2'] })}
+  );
+  it("should return an object with type n and count as given and rest as files in an input of array without type",function(){
+    deepEqual(parseWithOptions(["-1","file1"]),{ type: 'n', count: '1', files: [ 'file1' ] });
+    deepEqual(parseWithOptions(["-2","file1","file2"]),{ type: 'n', count: '2', files: [ 'file1' ,'file2'] })}
+  );
+  it("should return an object with type n and count as given and rest as files in an input of array with type and count as seperate",function(){
+    deepEqual(parseWithOptions(["-n","1","file1"]),{ type: 'n', count: '1', files: [ 'file1' ] });
+    deepEqual(parseWithOptions(["-n","2","file1","file2"]),{ type: 'n', count: '2', files: [ 'file1' ,'file2'] })}
+  );
+  it("should return an object with type c and count as given and rest as files in an input of array",function(){
+    deepEqual(parseWithOptions(["-c","1","file1"]),{ type: 'c', count: '1', files: [ 'file1' ] });
+    deepEqual(parseWithOptions(["-c","2","file1","file2"]),{ type: 'c', count: '2', files: [ 'file1' ,'file2'] })}
+  );
+})
+
+describe("createParameterObject",function(){
+  it("should return all three parameters passed in function as object",function(){
+    deepEqual(createParameterObject("n","10",["file"]),{ type: 'n', count: '10', files: [ 'file' ] });
+    deepEqual(createParameterObject("c","10",["file"]),{ type: 'c', count: '10', files: [ 'file' ] });
+    deepEqual(createParameterObject("n","10",["file","file1"]),{ type: 'n', count: '10', files: [ 'file','file1' ] });
+    deepEqual(createParameterObject("c","10",["file","file1"]),{ type: 'c', count: '10', files: [ 'file','file1' ] });
+  })
+})
