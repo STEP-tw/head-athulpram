@@ -50,8 +50,8 @@ const selectFileContents = function(fs,headParams,selectContents){
       headOfFiles.push(currentFileHead)
     }
   }
-  if(headParams.type == "n"){
-    return headOfFiles.join("\n");
+  if(headParams.type == "c"){
+    return headOfFiles.join("");
   } 
   return headOfFiles.join("\n")
 }
