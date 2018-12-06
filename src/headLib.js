@@ -12,7 +12,7 @@ const parseWithOptions = function(headParams){
   if(!isNaN(Math.abs(headParams[0]))){
     return createParameterObject("n",Math.abs(headParams[0]),headParams.slice(1));
   }
-    return createParameterObject(headParams[0][1],headParams[0].slice(2),headParams.slice(1));
+  return createParameterObject(headParams[0][1],headParams[0].slice(2),headParams.slice(1));
 }
 
 const createParameterObject = function(type,count,files){
@@ -30,7 +30,16 @@ const selectFirstNBytes = function(fileContents,numberOfBytes){
   return fileContents.slice(0,numberOfBytes).join("");
 }
 
-const selectFileContents = function(fileDetails,headParams,selectContents){
+const findHeadFunction = function(type){
+  let headOptions = {
+    "n" : selectTopLines,
+    "c" : selectFirstNBytes
+  }
+  return headOptions[type];
+}
+
+const selectFileContents = function(fileDetails,headParams){
+  const selectContents = findHeadFunction(headParams.type);
   let headOfFiles = [];
   let delimiter="";
   fileDetails.forEach(({name,exists,content})=>{
@@ -66,10 +75,6 @@ const validateCount = function({count,type}){
 
 const head = function(fs,inputArgs){
   let headParams = parseInput(inputArgs)
-  let headOptions = {
-    "n" : selectTopLines,
-    "c" : selectFirstNBytes
-  }
   if(headParams.type!="c" && headParams.type!="n"){
     return "head: illegal option -- "+headParams.type+"\nusage: head [-n lines | -c bytes] [file ...]"
   }
@@ -81,7 +86,7 @@ const head = function(fs,inputArgs){
 
   fileDetails = getFileDetails(fs,headParams.files)
 
-  return headOfFiles=selectFileContents(fileDetails,headParams,headOptions[headParams.type]);
+  return headOfFiles=selectFileContents(fileDetails,headParams);
 }
 
 const getFileDetails = function(fs,headParams){
