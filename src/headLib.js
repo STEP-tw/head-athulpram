@@ -20,8 +20,8 @@ const createParameterObject = function(type,count,files){
 }
 
 const selectTopLines = function(fileContents,numberOfLines){
+  fileContents.trim();
   fileContents=fileContents.split("\n");
-  fileContents.splice(fileContents.length-1)
   return fileContents.slice(0,numberOfLines).join("\n");
 }
 
