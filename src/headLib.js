@@ -111,3 +111,4 @@ exports.head = head;
 exports.validateCount = validateCount;
 exports.parseWithOptions = parseWithOptions;
 exports.createParameterObject = createParameterObject;
+exports.selectFileContents = selectFileContents;

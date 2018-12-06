@@ -1,5 +1,6 @@
 const {
   createParameterObject,
+  selectFileContents,
   parseInput,
   selectTopLines,
   selectFirstNBytes,
@@ -116,5 +117,11 @@ describe("createParameterObject",function(){
     deepEqual(createParameterObject("c","10",["file"]),{ type: 'c', count: '10', files: [ 'file' ] });
     deepEqual(createParameterObject("n","10",["file","file1"]),{ type: 'n', count: '10', files: [ 'file','file1' ] });
     deepEqual(createParameterObject("c","10",["file","file1"]),{ type: 'c', count: '10', files: [ 'file','file1' ] });
+  })
+})
+
+describe("selectFileContents",function(){
+  it("should return all of file contents for an input of file details with single line",function(){
+    deepEqual(selectFileContents([{name : "file1",content : "This is a file",exists : true}],{type : "n",count : "10",files : ["file1"]}),'This is a file');
   })
 })
