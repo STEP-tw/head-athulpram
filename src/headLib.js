@@ -91,3 +91,4 @@ exports.selectFirstNBytes = selectFirstNBytes;
 exports.head = head;
 exports.validateCount = validateCount;
 exports.selectFileContents = selectFileContents;
+exports.getFileDetails = getFileDetails;

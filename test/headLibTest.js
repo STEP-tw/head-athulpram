@@ -1,11 +1,9 @@
 const {
-  createParameterObject,
   selectFileContents,
-  parseInput,
   selectTopLines,
   selectFirstNBytes,
   validateCount,
-  parseWithOptions
+  getFileDetails
 } = require("../src/headLib.js");
 const {deepEqual} = require("assert");
 
@@ -76,5 +74,43 @@ describe("selectFileContents",function(){
   it("should return all of the file contents for an input of multiple files",function(){
     exp_out = '==> file1 <==\nThis is a \n\n==> file2 <==\nthis is a '; 
     deepEqual(selectFileContents([file1,file2],{type : "c",count : "10",files : ["file1","file2"]}),exp_out);  
+  })
+})
+
+//Testing functions which takes fs as argument
+
+const createFile = function(name,content){
+  return {
+    name,
+    content,
+    exists : true
+  }
+}
+
+let directory = {
+  file1 : createFile("file1","This is a test file"),
+  file2 : createFile("file2","This is file 2"),
+  file3 : createFile("file3","This is third file \n With 2 lines of content")
+}
+
+dummyFS = {
+  existsSync : function(fileName){
+    if(Object.keys(directory).includes(fileName)){
+      return true;
+    }
+    return false;
+  },
+  readFileSync : function(fileName,encoding){
+    if(encoding == "utf-8"){
+      return directory[fileName].content;
+    }
+  }
+}
+
+describe("getFileDetails",function(){
+  it("should return a true exists and contents in an object of 0 th index of array for an inpput of one file",function(){
+    deepEqual(getFileDetails(dummyFS,["file1"]),[directory.file1]);
+    deepEqual(getFileDetails(dummyFS,["file2"]),[directory.file2]);
+    deepEqual(getFileDetails(dummyFS,["file3"]),[directory.file3]);
   })
 })
