@@ -1,9 +1,9 @@
 const fs = require("fs");
-const {head} = require("./src/headLib.js");
+const { head } = require("./src/headLib.js");
 
-const main = function(){
-  console.log(head(fs,process.argv.slice(2)));
-}
+const main = function() {
+  console.log(head(fs, process.argv.slice(2)));
+};
 main();
 /* 
   Usage:
@@ -20,6 +20,3 @@ main();
   node ./head.js -c5 file1 file2
   node ./head.js -c 5 file1 file2
 */
-
-
-
