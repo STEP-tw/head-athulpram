@@ -112,5 +112,25 @@ describe("getFileDetails",function(){
     deepEqual(getFileDetails(dummyFS,["file1"]),[directory.file1]);
     deepEqual(getFileDetails(dummyFS,["file2"]),[directory.file2]);
     deepEqual(getFileDetails(dummyFS,["file3"]),[directory.file3]);
-  })
-})
+  });
+  it("should return a true exists and contents in objects in an array for input of multiple files",function(){
+    deepEqual(getFileDetails(dummyFS,["file1","file2"]),[directory.file1,directory.file2]);
+    deepEqual(getFileDetails(dummyFS,["file2","file3"]),[directory.file2,directory.file3]);
+    deepEqual(getFileDetails(dummyFS,["file1","file2","file3"]),[directory.file1,directory.file2,directory.file3]);
+  });
+
+  it("should return a false exists and content as error message for file not found",function(){
+    deepEqual(getFileDetails(dummyFS,["file4"]),[ { name: 'file4',
+    exists: false,
+    content: 'head: file4: No such file or directory' } ])
+  });
+
+  it("should return multiple objects with status according to file" , function(){
+    deepEqual(getFileDetails(dummyFS,["file1","file4","file2"])
+[ { name: 'file1', exists: true, content: 'This is a test file' },
+  { name: 'file4',
+    exists: false,
+    content: 'head: file4: No such file or directory' },
+  { name: 'file2', exists: true, content: 'This is file 2' } ]);
+  });
+});
