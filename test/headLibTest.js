@@ -6,7 +6,9 @@ const {
   getFileDetails,
   findFirstNBytesi,
   findHeadFunction,
-  head
+  head,
+  validateHeadType,
+  validateParameters
 } = require("../src/headLib.js");
 const { deepEqual } = require("assert");
 
@@ -240,5 +242,20 @@ describe("head", function() {
     deepEqual(head(dummyFS, ["-n0", "file1"]), exp_out);
     exp_out = "head: illegal byte count -- 0";
     deepEqual(head(dummyFS, ["-c0", "file1"]), exp_out);
+  });
+});
+
+describe("validateHeadType", function() {
+  it("should return true for all except n and c", function() {
+    deepEqual(validateHeadType("g"), true);
+  });
+});
+
+describe("validateParameters", function() {
+  it("should return object with status according to parameters", function() {
+    deepEqual(validateParameters({ type: "n", count: "3", files: ["file1"] }), {
+      status: false,
+      message: ""
+    });
   });
 });

@@ -53,22 +53,36 @@ const validateCount = function({ count, type }) {
   return { status: true, message: "" };
 };
 
-const head = function(fs, inputArgs) {
-  let headParams = parseInput(inputArgs);
-  if (headParams.type != "c" && headParams.type != "n") {
-    return (
+const validateHeadType = function(type) {
+  return type != "c" && type != "n";
+};
+
+const validateParameters = function(headParams) {
+  let message = "";
+  let status = false;
+  if (validateHeadType(headParams.type)) {
+    message =
       "head: illegal option -- " +
       headParams.type +
-      "\nusage: head [-n lines | -c bytes] [file ...]"
-    );
+      "\nusage: head [-n lines | -c bytes] [file ...]";
+    status = true;
   }
-
   countValidation = validateCount(headParams);
   if (!countValidation.status) {
-    return countValidation.message;
+    message = countValidation.message;
+    status = true;
   }
+  return { status, message };
+};
 
+const head = function(fs, inputArgs) {
+  let headParams = parseInput(inputArgs);
   fileDetails = getFileDetails(fs, headParams.files);
+  validationResult = validateParameters(headParams);
+
+  if (validationResult.status) {
+    return validationResult.message;
+  }
 
   return (headOfFiles = selectFileContents(fileDetails, headParams));
 };
@@ -96,3 +110,5 @@ exports.validateCount = validateCount;
 exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
+exports.validateParameters = validateParameters;
+exports.validateHeadType = validateHeadType;
