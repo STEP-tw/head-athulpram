@@ -101,6 +101,14 @@ const getFileDetails = function(fs, headParams) {
   });
 };
 
+const reverseContents = function(content){
+  return content
+  .trim()
+  .split("")
+  .reverse()
+  .join("");
+}
+
 const tail = function(fileDetails, tailParams) {
   const selectContents = findHeadFunction(tailParams.type);
   let tailOfFiles = [];
@@ -114,18 +122,9 @@ const tail = function(fileDetails, tailParams) {
         currentFileTail = delimiter + "==> " + name + " <==\n";
         delimiter = "\n";
       }
-      let currentTail = selectContents(
-        content
-          .trim()
-          .split("")
-          .reverse()
-          .join(""),
-        tailParams.count
-      );
-      currentFileTail += currentTail
-        .split("")
-        .reverse()
-        .join("");
+      let reversedContent = reverseContents(content);
+      let currentTail = selectContents(reversedContent,tailParams.count);
+      currentFileTail += reverseContents(currentTail);
       tailOfFiles.push(currentFileTail);
     }
   });
