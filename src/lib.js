@@ -131,10 +131,25 @@ const tail = function(fileDetails, tailParams) {
   return tailOfFiles.join("\n");
 };
 
+const validateTailParameters = function(tailParams) {
+  let message = "";
+  let status = false;
+  if (validateHeadType(tailParams.type)) {
+    message ="tail: illegal option -- "+tailParams.type+"\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
+    status = true;
+    return {status, message};
+  }
+  if (isNaN(tailParams.count)) {
+    message = "tail: illegal offset -- "+tailParams.count;
+    status = true;
+  }
+  return { status, message };
+};
+
 const runTail = function(fs,inputArgs){
   let tailParams = parseInput(inputArgs);
   fileDetails = getFileDetails(fs, tailParams.files, "tail");
-  validationResult = validateParameters(tailParams);
+  validationResult = validateTailParameters(tailParams);
 
   if (validationResult.status) {
     return validationResult.message;

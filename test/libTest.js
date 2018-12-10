@@ -320,4 +320,14 @@ describe("runTail", function() {
   it("should return a false exists and content as error message for file not found", function() {
     deepEqual(runTail(dummyFS,["file4"]),"tail: file4: No such file or directory");
   });
+
+  it("should return error messages for the following", function() {
+    let exp_out = "tail: file4: No such file or directory";
+    deepEqual(runTail(dummyFS, ["file4"]), exp_out);
+    exp_out =
+      "tail: illegal option -- t\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
+    deepEqual(runTail(dummyFS, ["-t", "file1"]), exp_out);
+    exp_out = "tail: illegal offset -- r";
+    deepEqual(runTail(dummyFS, ["-nr", "file1"]), exp_out);
+    });
 });
