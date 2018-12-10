@@ -108,21 +108,29 @@ const tail = function(fileDetails, tailParams) {
   fileDetails.forEach(({ name, exists, content }) => {
     tailOfFiles.push(content);
     if (exists) {
-      tailOfFiles.pop(content); 
+      tailOfFiles.pop(content);
       let currentFileTail = "";
       if (tailParams.files.length > 1) {
         currentFileTail = delimiter + "==> " + name + " <==\n";
         delimiter = "\n";
       }
-      let currentTail = selectContents(content.trim().split("").reverse().join(""), tailParams.count);
-      currentFileTail += currentTail.split("").reverse().join("")
+      let currentTail = selectContents(
+        content
+          .trim()
+          .split("")
+          .reverse()
+          .join(""),
+        tailParams.count
+      );
+      currentFileTail += currentTail
+        .split("")
+        .reverse()
+        .join("");
       tailOfFiles.push(currentFileTail);
     }
   });
   return tailOfFiles.join("\n");
 };
-
-
 
 exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;

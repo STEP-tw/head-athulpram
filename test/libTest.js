@@ -266,11 +266,46 @@ describe("validateParameters", function() {
 describe("tail", function() {
   it("should return all of file contents for an input of file details with single line", function() {
     deepEqual(
-      tail(
-        [{ name: "file1", content: "This is a file", exists: true }],
-        { type: "n", count: "10", files: ["file1"] }
-      ),
+      tail([{ name: "file1", content: "This is a file", exists: true }], {
+        type: "n",
+        count: "10",
+        files: ["file1"]
+      }),
       "This is a file"
+    );
+  });
+
+  let file1 = {
+    name: "file1",
+    content: "This is a file content \n this is a file content",
+    exists: true
+  };
+  let file2 = {
+    name: "file2",
+    content: "this is a file content",
+    exists: true
+  };
+  let exp_out =
+    "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
+  it("should return all of the file contents for an input of multiple files", function() {
+    deepEqual(
+      tail([file1, file2], {
+        type: "n",
+        count: "10",
+        files: ["file1", "file2"]
+      }),
+      exp_out
+    );
+  });
+  it("should return all of the file contents for an input of multiple files", function() {
+    exp_out = "==> file1 <==\nle content\n\n==> file2 <==\nle content";
+    deepEqual(
+      tail([file1, file2], {
+        type: "c",
+        count: "10",
+        files: ["file1", "file2"]
+      }),
+      exp_out
     );
   });
 });
