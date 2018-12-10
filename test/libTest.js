@@ -154,15 +154,15 @@ describe("getFileDetails", function() {
     deepEqual(getFileDetails(dummyFS, ["file3"]), [directory.file3]);
   });
   it("should return a true exists and contents in objects in an array for input of multiple files", function() {
-    deepEqual(getFileDetails(dummyFS, ["file1", "file2"]), [
+    deepEqual(getFileDetails(dummyFS, ["file1", "file2"],"head"), [
       directory.file1,
       directory.file2
     ]);
-    deepEqual(getFileDetails(dummyFS, ["file2", "file3"]), [
+    deepEqual(getFileDetails(dummyFS, ["file2", "file3"],"head"), [
       directory.file2,
       directory.file3
     ]);
-    deepEqual(getFileDetails(dummyFS, ["file1", "file2", "file3"]), [
+    deepEqual(getFileDetails(dummyFS, ["file1", "file2", "file3"],"head"), [
       directory.file1,
       directory.file2,
       directory.file3
@@ -170,7 +170,7 @@ describe("getFileDetails", function() {
   });
 
   it("should return a false exists and content as error message for file not found", function() {
-    deepEqual(getFileDetails(dummyFS, ["file4"]), [
+    deepEqual(getFileDetails(dummyFS, ["file4"],"head"), [
       {
         name: "file4",
         exists: false,
@@ -181,7 +181,7 @@ describe("getFileDetails", function() {
 
   it("should return multiple objects with status according to file", function() {
     deepEqual(
-      getFileDetails(dummyFS, ["file1", "file4", "file2"])[
+      getFileDetails(dummyFS, ["file1", "file4", "file2"],"head")[
         ({ name: "file1", exists: true, content: "This is a test file" },
         {
           name: "file4",
@@ -315,5 +315,9 @@ describe("runTail", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
     deepEqual(runTail(dummyFS, ["file1"]), "This is a test file");
     deepEqual(runTail(dummyFS, ["file2"]), "This is file 2");
+  });
+
+  it("should return a false exists and content as error message for file not found", function() {
+    deepEqual(runTail(dummyFS,["file4"]),"tail: file4: No such file or directory");
   });
 });

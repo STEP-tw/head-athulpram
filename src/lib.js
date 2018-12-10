@@ -77,7 +77,7 @@ const validateParameters = function(headParams) {
 
 const head = function(fs, inputArgs) {
   let headParams = parseInput(inputArgs);
-  fileDetails = getFileDetails(fs, headParams.files);
+  fileDetails = getFileDetails(fs, headParams.files, "head");
   validationResult = validateParameters(headParams);
 
   if (validationResult.status) {
@@ -86,12 +86,12 @@ const head = function(fs, inputArgs) {
   return (headOfFiles = selectFileContents(fileDetails, headParams));
 };
 
-const getFileDetails = function(fs, headParams) {
+const getFileDetails = function(fs, headParams, command) {
   return headParams.map(file => {
     fileDetails = {
       name: file,
       exists: false,
-      content: "head: " + file + ": No such file or directory"
+      content: command+": " + file + ": No such file or directory"
     };
     if (fs.existsSync(file)) {
       fileDetails.exists = true;
@@ -132,14 +132,14 @@ const tail = function(fileDetails, tailParams) {
 };
 
 const runTail = function(fs,inputArgs){
-  let headParams = parseInput(inputArgs);
-  fileDetails = getFileDetails(fs, headParams.files);
-  validationResult = validateParameters(headParams);
+  let tailParams = parseInput(inputArgs);
+  fileDetails = getFileDetails(fs, tailParams.files, "tail");
+  validationResult = validateParameters(tailParams);
 
   if (validationResult.status) {
     return validationResult.message;
   }
-  return tail(fileDetails, headParams);
+  return tail(fileDetails, tailParams);
 }
 
 exports.parseInput = parseInput;
