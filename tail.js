@@ -1,3 +1,10 @@
+const fs = require("fs");
+const { runTail } = require("./src/lib.js");
+
+const main = function() {
+  console.log(runTail(fs, process.argv.slice(2)));
+};
+main();
 /* 
   Usage:
   node ./tail.js file1

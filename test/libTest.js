@@ -11,7 +11,8 @@ const {
   selectLastNBytes,
   validateHeadType,
   validateParameters,
-  tail
+  tail,
+  runTail
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
 
@@ -307,5 +308,12 @@ describe("tail", function() {
       }),
       exp_out
     );
+  });
+});
+
+describe("runTail", function() {
+  it("should return content of file with a maximum of 10 lines  - default values", function() {
+    deepEqual(runTail(dummyFS, ["file1"]), "This is a test file");
+    deepEqual(runTail(dummyFS, ["file2"]), "This is file 2");
   });
 });

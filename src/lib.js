@@ -131,6 +131,17 @@ const tail = function(fileDetails, tailParams) {
   return tailOfFiles.join("\n");
 };
 
+const runTail = function(fs,inputArgs){
+  let headParams = parseInput(inputArgs);
+  fileDetails = getFileDetails(fs, headParams.files);
+  validationResult = validateParameters(headParams);
+
+  if (validationResult.status) {
+    return validationResult.message;
+  }
+  return tail(fileDetails, headParams);
+}
+
 exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
@@ -141,4 +152,5 @@ exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
 exports.validateParameters = validateParameters;
 exports.validateHeadType = validateHeadType;
+exports.runTail = runTail;
 exports.tail = tail;
