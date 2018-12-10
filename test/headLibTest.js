@@ -9,7 +9,7 @@ const {
   head,
   validateHeadType,
   validateParameters
-} = require("../src/headLib.js");
+} = require("../src/lib.js");
 const { deepEqual } = require("assert");
 
 describe("selectTopLines", function() {
