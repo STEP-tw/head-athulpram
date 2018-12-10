@@ -83,7 +83,6 @@ const head = function(fs, inputArgs) {
   if (validationResult.status) {
     return validationResult.message;
   }
-
   return (headOfFiles = selectFileContents(fileDetails, headParams));
 };
 
@@ -102,6 +101,29 @@ const getFileDetails = function(fs, headParams) {
   });
 };
 
+const tail = function(fileDetails, tailParams) {
+  const selectContents = findHeadFunction(tailParams.type);
+  let tailOfFiles = [];
+  let delimiter = "";
+  fileDetails.forEach(({ name, exists, content }) => {
+    tailOfFiles.push(content);
+    if (exists) {
+      tailOfFiles.pop(content); 
+      let currentFileTail = "";
+      if (tailParams.files.length > 1) {
+        currentFileTail = delimiter + "==> " + name + " <==\n";
+        delimiter = "\n";
+      }
+      let currentTail = selectContents(content.trim().split("").reverse().join(""), tailParams.count);
+      currentFileTail += currentTail.split("").reverse().join("")
+      tailOfFiles.push(currentFileTail);
+    }
+  });
+  return tailOfFiles.join("\n");
+};
+
+
+
 exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
@@ -112,3 +134,4 @@ exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
 exports.validateParameters = validateParameters;
 exports.validateHeadType = validateHeadType;
+exports.tail = tail;
