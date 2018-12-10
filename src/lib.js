@@ -154,6 +154,7 @@ const runTail = function(fs,inputArgs){
   if (validationResult.status) {
     return validationResult.message;
   }
+  tailParams.count = Math.abs(tailParams.count)
   return tail(fileDetails, tailParams);
 }
 
