@@ -1,5 +1,18 @@
 const { parseInput, parseWithOptions } = require("./headInputLib.js");
 
+const errorMessages = {
+  head : {
+    usage : "usage: head [-n lines | -c bytes] [file ...]",
+    illegalOption : "head: illegal option -- "
+  },
+  tail : {
+    illegalOption : "tail: illegal option -- ",
+    illegalOffset : "tail: illegal offset -- ",
+    usage : "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
+  },
+  noFile : ": No such file or directory"
+}
+
 const selectTopLines = function(fileContents, numberOfLines) {
   fileContents.trim();
   fileContents = fileContents.split("\n");
@@ -53,19 +66,18 @@ const validateCount = function({ count, type }) {
   return { status: true, message: "" };
 };
 
-const validateHeadType = function(type) {
+const validateType = function(type) {
   return type != "c" && type != "n";
 };
 
 const validateParameters = function(headParams) {
   let message = "";
   let status = false;
-  if (validateHeadType(headParams.type)) {
-    message =
-      "head: illegal option -- " +
-      headParams.type +
-      "\nusage: head [-n lines | -c bytes] [file ...]";
-    status = true;
+  if (validateType(headParams.type)) {
+    return {message :errorMessages.head.illegalOption +
+      headParams.type +"\n"+errorMessages.head.usage,
+      status : true
+    }
   }
   countValidation = validateCount(headParams);
   if (!countValidation.status) {
@@ -91,7 +103,7 @@ const getFileDetails = function(fs, headParams, command) {
     fileDetails = {
       name: file,
       exists: false,
-      content: command+": " + file + ": No such file or directory"
+      content: command+": " + file + errorMessages.noFile
     };
     if (fs.existsSync(file)) {
       fileDetails.exists = true;
@@ -134,13 +146,13 @@ const tail = function(fileDetails, tailParams) {
 const validateTailParameters = function(tailParams) {
   let message = "";
   let status = false;
-  if (validateHeadType(tailParams.type)) {
-    message ="tail: illegal option -- "+tailParams.type+"\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
+  if (validateType(tailParams.type)) {
+    message = errorMessages.tail.illegalOption+tailParams.type+"\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
     status = true;
     return {status, message};
   }
   if (isNaN(tailParams.count)) {
-    message = "tail: illegal offset -- "+tailParams.count;
+    message = errorMessages.tail.illegalOffset+tailParams.count;
     status = true;
   }
   return { status, message };
@@ -167,6 +179,6 @@ exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
 exports.validateParameters = validateParameters;
-exports.validateHeadType = validateHeadType;
+exports.validateType = validateType;
 exports.runTail = runTail;
 exports.tail = tail;

@@ -9,7 +9,7 @@ const {
   head,
   selectLastLines,
   selectLastNBytes,
-  validateHeadType,
+  validateType,
   validateParameters,
   tail,
   runTail
@@ -249,9 +249,9 @@ describe("head", function() {
   });
 });
 
-describe("validateHeadType", function() {
+describe("validateType", function() {
   it("should return true for all except n and c", function() {
-    deepEqual(validateHeadType("g"), true);
+    deepEqual(validateType("g"), true);
   });
 });
 
