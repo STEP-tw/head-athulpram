@@ -66,19 +66,22 @@ const validateCount = function({ count, type }) {
   return { status: true, message: "" };
 };
 
-const validateType = function(type) {
-  return type != "c" && type != "n";
+const validateOption = function({type,command}) {
+  return {
+    status :type != "c" && type != "n",
+    message :errorMessages[command].illegalOption +
+    type +"\n"+errorMessages[command].usage,
+  }
 };
 
 const validateParameters = function(headParams) {
   let message = "";
   let status = false;
-  if (validateType(headParams.type)) {
-    return {message :errorMessages.head.illegalOption +
-      headParams.type +"\n"+errorMessages.head.usage,
-      status : true
-    }
+  let optionValidationResult = validateOption(headParams)
+  if (optionValidationResult.status) {
+    return optionValidationResult;
   }
+
   countValidation = validateCount(headParams);
   if (!countValidation.status) {
     message = countValidation.message;
@@ -89,6 +92,7 @@ const validateParameters = function(headParams) {
 
 const head = function(fs, inputArgs) {
   let headParams = parseInput(inputArgs);
+  headParams.command = "head";
   fileDetails = getFileDetails(fs, headParams.files, "head");
   validationResult = validateParameters(headParams);
 
@@ -122,7 +126,7 @@ const reverseContents = function(content){
 }
 
 const tail = function(fileDetails, tailParams) {
-  const selectContents = findHeadFunction(tailParams.type);
+  let selectContents = findHeadFunction(tailParams.type);
   let tailOfFiles = [];
   let delimiter = "";
   fileDetails.forEach(({ name, exists, content }) => {
@@ -146,10 +150,9 @@ const tail = function(fileDetails, tailParams) {
 const validateTailParameters = function(tailParams) {
   let message = "";
   let status = false;
-  if (validateType(tailParams.type)) {
-    message = errorMessages.tail.illegalOption+tailParams.type+"\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
-    status = true;
-    return {status, message};
+  let validateOptionResult = validateOption(tailParams);
+  if (validateOptionResult.status){
+    return validateOptionResult;
   }
   if (isNaN(tailParams.count)) {
     message = errorMessages.tail.illegalOffset+tailParams.count;
@@ -160,6 +163,7 @@ const validateTailParameters = function(tailParams) {
 
 const runTail = function(fs,inputArgs){
   let tailParams = parseInput(inputArgs);
+  tailParams.command = "tail";
   fileDetails = getFileDetails(fs, tailParams.files, "tail");
   validationResult = validateTailParameters(tailParams);
 
@@ -179,6 +183,6 @@ exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
 exports.validateParameters = validateParameters;
-exports.validateType = validateType;
+exports.validateOption = validateOption;
 exports.runTail = runTail;
 exports.tail = tail;

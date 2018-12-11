@@ -9,7 +9,7 @@ const {
   head,
   selectLastLines,
   selectLastNBytes,
-  validateType,
+  validateOption,
   validateParameters,
   tail,
   runTail
@@ -249,15 +249,15 @@ describe("head", function() {
   });
 });
 
-describe("validateType", function() {
+describe("validateOption", function() {
   it("should return true for all except n and c", function() {
-    deepEqual(validateType("g"), true);
+    deepEqual(validateOption({type : "g",command : "head"}), {status : true, message : "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]"});
   });
 });
 
 describe("validateParameters", function() {
   it("should return object with status according to parameters", function() {
-    deepEqual(validateParameters({ type: "n", count: "3", files: ["file1"] }), {
+    deepEqual(validateParameters({ type: "n", count: "3", files: ["file1"] ,command : "head"}), {
       status: false,
       message: ""
     });
@@ -270,7 +270,8 @@ describe("tail", function() {
       tail([{ name: "file1", content: "This is a file", exists: true }], {
         type: "n",
         count: "10",
-        files: ["file1"]
+        files: ["file1"],
+        command : "tail"
       }),
       "This is a file"
     );
