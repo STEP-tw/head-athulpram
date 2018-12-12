@@ -4,15 +4,13 @@ const {
   selectFirstNBytes,
   validateCount,
   getFileDetails,
-  findFirstNBytes,
   findHeadFunction,
   head,
-  selectLastLines,
-  selectLastNBytes,
   validateOption,
   validateParameters,
   tail,
-  runTail
+  runTail,
+  validateHeadCount
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
 
@@ -331,4 +329,20 @@ describe("runTail", function() {
     exp_out = "tail: illegal offset -- r";
     deepEqual(runTail(dummyFS, ["-nr", "file1"]), exp_out);
     });
+});
+
+describe("validateHead",()=>{
+  it("should return true for all positive numbers",()=>{
+    deepEqual(validateHeadCount(1),true);
+    deepEqual(validateHeadCount(2),true);
+  });
+
+  it("should return false for zero",()=>{
+    deepEqual(validateHeadCount(0),false);
+  });
+
+  it("should return false for negative numbers",()=>{
+    deepEqual(validateHeadCount(-1),false);
+    deepEqual(validateHeadCount(-2),false);
+  })
 });

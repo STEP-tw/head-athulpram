@@ -2,7 +2,7 @@ const {
     isNaturalNumber
 } = require("../src/utilLib");
 
-const deepEqual = require("assert");
+const {deepEqual , equal} = require("assert");
 
 describe("isNaturalNumber",()=>{
     it("should return true for all positive numbers",()=>{
@@ -12,8 +12,7 @@ describe("isNaturalNumber",()=>{
     });
 
     it("should return false for an input of 0",()=>{
-        console.log(isNaturalNumber(0));
-        deepEqual(!isNaturalNumber(0),true);
+        deepEqual(isNaturalNumber(0),false);
     });
 
     it("should return false for an input of negative count",()=>{

@@ -53,18 +53,22 @@ const selectFileContents = function(fileDetails, headParams) {
   return headOfFiles.join("\n");
 };
 
+const validateHeadCount = function(count){
+  return (isNaturalNumber(count) && !isNaN(count));
+}
+
 const validateCount = function({ count, type }) {
   optionCountName = {
     c: "byte",
     n: "line"
   };
-  if ((!isNaturalNumber(count)) || isNaN(count)) {
-    return {
-      message: "head: illegal " + optionCountName[type] + " count -- " + count,
-      status: false
-    };
+  if (validateHeadCount(count)) {
+    return { status: true, message: "" };
   }
-  return { status: true, message: "" };
+  return {
+    message: "head: illegal " + optionCountName[type] + " count -- " + count,
+    status: false
+  };
 };
 
 const validateOption = function({type,command}) {
@@ -187,3 +191,4 @@ exports.validateParameters = validateParameters;
 exports.validateOption = validateOption;
 exports.runTail = runTail;
 exports.tail = tail;
+exports.validateHeadCount = validateHeadCount;
