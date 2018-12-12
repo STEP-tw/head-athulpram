@@ -1,4 +1,5 @@
 const { parseInput, parseWithOptions } = require("./headInputLib.js");
+const { isNaturalNumber } = require("./utilLib.js")
 
 const errorMessages = {
   head : {
@@ -57,7 +58,7 @@ const validateCount = function({ count, type }) {
     c: "byte",
     n: "line"
   };
-  if (count < 1 || isNaN(count)) {
+  if ((!isNaturalNumber(count)) || isNaN(count)) {
     return {
       message: "head: illegal " + optionCountName[type] + " count -- " + count,
       status: false
