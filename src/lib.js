@@ -1,4 +1,4 @@
-const { parseInput,validateHeadCount,validateCount,validateOption,validateTailParameters,validateHeadParameters} = require("./inputLib.js");
+const { parseInput,parseValidatedInput,validateHeadCount,validateCount,validateOption,validateTailParameters,validateHeadParameters} = require("./inputLib.js");
 const { isNaturalNumber, reverseContents,errorMessages} = require("./utilLib.js")
 
 const selectTopLines = function(fileContents, numberOfLines) {
@@ -44,13 +44,12 @@ const selectFileContents = function(fileDetails, headParams) {
 
 
 const head = function(fs, inputArgs) {
-  let headParams = parseInput(inputArgs);
+  let headParams = parseValidatedInput(inputArgs,"head");
   headParams.command = "head";
   fileDetails = getFileDetails(fs, headParams.files, "head");
-  validationResult = validateHeadParameters(headParams);
-
-  if (validationResult.status) {
-    return validationResult.message;
+  
+  if (!headParams.isValid) {
+    return headParams.message;
   }
   return (headOfFiles = selectFileContents(fileDetails, headParams));
 };
@@ -96,13 +95,12 @@ const tail = function(fileDetails, tailParams) {
 
 
 const runTail = function(fs,inputArgs){
-  let tailParams = parseInput(inputArgs);
+  let tailParams = parseValidatedInput(inputArgs,"tail");
   tailParams.command = "tail";
   fileDetails = getFileDetails(fs, tailParams.files, "tail");
-  validationResult = validateTailParameters(tailParams);
 
-  if (validationResult.status) {
-    return validationResult.message;
+  if (!tailParams.isValid) {
+    return tailParams.message;
   }
   tailParams.count = Math.abs(tailParams.count)
   return tail(fileDetails, tailParams);
