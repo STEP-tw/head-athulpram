@@ -1,4 +1,4 @@
-const { parseInput } = require("./headInputLib.js");
+const { parseInput } = require("./inputLib.js");
 const { isNaturalNumber, reverseContents} = require("./utilLib.js")
 
 const errorMessages = {

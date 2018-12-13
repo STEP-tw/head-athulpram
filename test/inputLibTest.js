@@ -2,7 +2,7 @@ const {
   parseInput,
   parseWithOptions,
   createParameterObject
-} = require("../src/headInputLib.js");
+} = require("../src/inputLib.js");
 const { deepEqual } = require("assert");
 
 describe("parseInput", function() {
