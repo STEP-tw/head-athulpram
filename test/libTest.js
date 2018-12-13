@@ -47,29 +47,7 @@ describe("selectFirstNBytes", function() {
   });
 });
 
-describe("validate count", function() {
-  it("should return an object with status true and a empty message for a valid count", function() {
-    deepEqual(validateCount({ type: "c", count: 1 }), {
-      status: true,
-      message: ""
-    });
-    deepEqual(validateCount({ type: "n", count: 2 }), {
-      status: true,
-      message: ""
-    });
-  });
 
-  it("should return an object with status false and error message in message", function() {
-    deepEqual(validateCount({ type: "c", count: -1 }), {
-      status: false,
-      message: "head: illegal byte count -- -1"
-    });
-    deepEqual(validateCount({ type: "n", count: -2 }), {
-      status: false,
-      message: "head: illegal line count -- -2"
-    });
-  });
-});
 describe("selectFileContents", function() {
   it("should return all of file contents for an input of file details with single line", function() {
     deepEqual(
@@ -247,11 +225,7 @@ describe("head", function() {
   });
 });
 
-describe("validateOption", function() {
-  it("should return true for all except n and c", function() {
-    deepEqual(validateOption({type : "g",command : "head"}), {status : true, message : "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]"});
-  });
-});
+
 
 describe("validateHeadParameters", function() {
   it("should return object with status according to parameters", function() {
@@ -329,20 +303,4 @@ describe("runTail", function() {
     exp_out = "tail: illegal offset -- r";
     deepEqual(runTail(dummyFS, ["-nr", "file1"]), exp_out);
     });
-});
-
-describe("validateHead",()=>{
-  it("should return true for all positive numbers",()=>{
-    deepEqual(validateHeadCount(1),true);
-    deepEqual(validateHeadCount(2),true);
-  });
-
-  it("should return false for zero",()=>{
-    deepEqual(validateHeadCount(0),false);
-  });
-
-  it("should return false for negative numbers",()=>{
-    deepEqual(validateHeadCount(-1),false);
-    deepEqual(validateHeadCount(-2),false);
-  });
 });

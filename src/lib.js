@@ -1,18 +1,5 @@
-const { parseInput } = require("./inputLib.js");
-const { isNaturalNumber, reverseContents} = require("./utilLib.js")
-
-const errorMessages = {
-  head : {
-    usage : "usage: head [-n lines | -c bytes] [file ...]",
-    illegalOption : "head: illegal option -- "
-  },
-  tail : {
-    illegalOption : "tail: illegal option -- ",
-    illegalOffset : "tail: illegal offset -- ",
-    usage : "usage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]"
-  },
-  noFile : ": No such file or directory"
-}
+const { parseInput,validateHeadCount,validateCount,validateOption } = require("./inputLib.js");
+const { isNaturalNumber, reverseContents,errorMessages} = require("./utilLib.js")
 
 const selectTopLines = function(fileContents, numberOfLines) {
   fileContents.trim();
@@ -53,31 +40,6 @@ const selectFileContents = function(fileDetails, headParams) {
   return headOfFiles.join("\n");
 };
 
-const validateHeadCount = function(count){
-  return (isNaturalNumber(count) && !isNaN(count));
-}
-
-const validateCount = function({ count, type }) {
-  optionCountName = {
-    c: "byte",
-    n: "line"
-  };
-  if (validateHeadCount(count)) {
-    return { status: true, message: "" };
-  }
-  return {
-    message: "head: illegal " + optionCountName[type] + " count -- " + count,
-    status: false
-  };
-};
-
-const validateOption = function({type,command}) {
-  return {
-    status :type != "c" && type != "n",
-    message :errorMessages[command].illegalOption +
-    type +"\n"+errorMessages[command].usage,
-  }
-};
 
 const validateHeadParameters = function(headParams) {
   let message = "";
@@ -182,7 +144,5 @@ exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
 exports.validateHeadParameters = validateHeadParameters;
-exports.validateOption = validateOption;
 exports.runTail = runTail;
 exports.tail = tail;
-exports.validateHeadCount = validateHeadCount;
