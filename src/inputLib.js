@@ -71,6 +71,22 @@ const validateTailParameters = function(tailParams) {
   return { status, message };
 };
 
+const validateHeadParameters = function(headParams) {
+  let message = "";
+  let status = false;
+  let optionValidationResult = validateOption(headParams)
+  if (optionValidationResult.status) {
+    return optionValidationResult;
+  }
+
+  countValidation = validateCount(headParams);
+  if (!countValidation.status) {
+    message = countValidation.message;
+    status = true;
+  }
+  return { status, message };
+};
+
 exports.parseInput = parseInput;
 exports.parseWithOptions = parseWithOptions;
 exports.createParameterObject = createParameterObject;
@@ -78,3 +94,4 @@ exports.validateCount = validateCount;
 exports.validateHeadCount = validateHeadCount;
 exports.validateOption = validateOption
 exports.validateTailParameters = validateTailParameters;
+exports.validateHeadParameters = validateHeadParameters;

@@ -1,4 +1,4 @@
-const { parseInput,validateHeadCount,validateCount,validateOption,validateTailParameters} = require("./inputLib.js");
+const { parseInput,validateHeadCount,validateCount,validateOption,validateTailParameters,validateHeadParameters} = require("./inputLib.js");
 const { isNaturalNumber, reverseContents,errorMessages} = require("./utilLib.js")
 
 const selectTopLines = function(fileContents, numberOfLines) {
@@ -41,21 +41,7 @@ const selectFileContents = function(fileDetails, headParams) {
 };
 
 
-const validateHeadParameters = function(headParams) {
-  let message = "";
-  let status = false;
-  let optionValidationResult = validateOption(headParams)
-  if (optionValidationResult.status) {
-    return optionValidationResult;
-  }
 
-  countValidation = validateCount(headParams);
-  if (!countValidation.status) {
-    message = countValidation.message;
-    status = true;
-  }
-  return { status, message };
-};
 
 const head = function(fs, inputArgs) {
   let headParams = parseInput(inputArgs);

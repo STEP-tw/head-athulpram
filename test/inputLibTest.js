@@ -5,7 +5,8 @@ const {
   validateCount,
   validateOption,
   validateHeadCount,
-  validateTailParameters
+  validateTailParameters,
+  validateHeadParameters
 } = require("../src/inputLib.js");
 const { deepEqual } = require("assert");
 
@@ -240,3 +241,34 @@ describe("validateTailParameters", function() {
     });
   });
 });
+
+
+describe("validateHeadParameters", function() {
+  it("should return object with status according to parameters", function() {
+    deepEqual(validateHeadParameters({ type: "n", count: "3", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+    deepEqual(validateHeadParameters({ type: "c", count: "10", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+    deepEqual(validateHeadParameters({ type: "n", count: "10", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+  });
+  it("should return no error message for count of zero", function() {
+    deepEqual(validateHeadParameters({ type: "n", count: "0", files: ["file1"] ,command : "tail"}), {
+      status: true,
+      message: "head: illegal line count -- 0"
+    });
+  });
+  it("should return no error message for negative values of count", function() {
+    deepEqual(validateHeadParameters({ type: "n", count: "-1", files: ["file1"] ,command : "tail"}), {
+      status: true,
+      message: "head: illegal line count -- -1"
+    });
+  });
+});
+
