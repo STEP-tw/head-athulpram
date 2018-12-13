@@ -1,5 +1,5 @@
-const { parseInput, parseWithOptions } = require("./headInputLib.js");
-const { isNaturalNumber } = require("./utilLib.js")
+const { parseInput } = require("./headInputLib.js");
+const { isNaturalNumber, reverseContents} = require("./utilLib.js")
 
 const errorMessages = {
   head : {
@@ -122,13 +122,7 @@ const getFileDetails = function(fs, headParams, command) {
   });
 };
 
-const reverseContents = function(content){
-  return content
-  .trim()
-  .split("")
-  .reverse()
-  .join("");
-}
+
 
 const tail = function(fileDetails, tailParams) {
   let selectContents = findHeadFunction(tailParams.type);

@@ -1,5 +1,6 @@
 const {
-    isNaturalNumber
+    isNaturalNumber,
+    reverseContents
 } = require("../src/utilLib");
 
 const {deepEqual , equal} = require("assert");
@@ -20,3 +21,10 @@ describe("isNaturalNumber",()=>{
         deepEqual(!isNaturalNumber(-2),true);
     })
 });
+
+describe("reverseContents",()=>{
+    it("should return reverse of given string",()=>{
+        deepEqual(reverseContents("abcdefghijklm"),"mlkjihgfedcba");
+        deepEqual(reverseContents("1234"),"4321");
+    });
+})

@@ -344,5 +344,5 @@ describe("validateHead",()=>{
   it("should return false for negative numbers",()=>{
     deepEqual(validateHeadCount(-1),false);
     deepEqual(validateHeadCount(-2),false);
-  })
+  });
 });
