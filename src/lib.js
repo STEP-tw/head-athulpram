@@ -1,4 +1,4 @@
-const { parseInput,validateHeadCount,validateCount,validateOption } = require("./inputLib.js");
+const { parseInput,validateHeadCount,validateCount,validateOption,validateTailParameters} = require("./inputLib.js");
 const { isNaturalNumber, reverseContents,errorMessages} = require("./utilLib.js")
 
 const selectTopLines = function(fileContents, numberOfLines) {
@@ -108,19 +108,6 @@ const tail = function(fileDetails, tailParams) {
   return tailOfFiles.join("\n");
 };
 
-const validateTailParameters = function(tailParams) {
-  let message = "";
-  let status = false;
-  let validateOptionResult = validateOption(tailParams);
-  if (validateOptionResult.status){
-    return validateOptionResult;
-  }
-  if (isNaN(tailParams.count)) {
-    message = errorMessages.tail.illegalOffset+tailParams.count;
-    status = true;
-  }
-  return { status, message };
-};
 
 const runTail = function(fs,inputArgs){
   let tailParams = parseInput(inputArgs);

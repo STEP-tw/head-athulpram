@@ -4,7 +4,8 @@ const {
   createParameterObject,
   validateCount,
   validateOption,
-  validateHeadCount
+  validateHeadCount,
+  validateTailParameters
 } = require("../src/inputLib.js");
 const { deepEqual } = require("assert");
 
@@ -208,5 +209,34 @@ describe("validateHead",()=>{
   it("should return false for negative numbers",()=>{
     deepEqual(validateHeadCount(-1),false);
     deepEqual(validateHeadCount(-2),false);
+  });
+});
+
+describe("validateTailParameters", function() {
+  it("should return object with status according to parameters", function() {
+    deepEqual(validateTailParameters({ type: "n", count: "3", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+    deepEqual(validateTailParameters({ type: "c", count: "10", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+    deepEqual(validateTailParameters({ type: "n", count: "10", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+  });
+  it("should return no error message for count of zero", function() {
+    deepEqual(validateTailParameters({ type: "n", count: "0", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
+  });
+  it("should return no error message for negative values of count", function() {
+    deepEqual(validateTailParameters({ type: "n", count: "-1", files: ["file1"] ,command : "tail"}), {
+      status: false,
+      message: ""
+    });
   });
 });

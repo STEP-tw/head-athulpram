@@ -57,9 +57,24 @@ const validateOption = function({type,command}) {
   }
 };
 
+const validateTailParameters = function(tailParams) {
+  let message = "";
+  let status = false;
+  let validateOptionResult = validateOption(tailParams);
+  if (validateOptionResult.status){
+    return validateOptionResult;
+  }
+  if (isNaN(tailParams.count)) {
+    message = errorMessages.tail.illegalOffset+tailParams.count;
+    status = true;
+  }
+  return { status, message };
+};
+
 exports.parseInput = parseInput;
 exports.parseWithOptions = parseWithOptions;
 exports.createParameterObject = createParameterObject;
 exports.validateCount = validateCount;
 exports.validateHeadCount = validateHeadCount;
 exports.validateOption = validateOption
+exports.validateTailParameters = validateTailParameters;
