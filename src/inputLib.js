@@ -10,6 +10,19 @@ const parseInput = function(headParams) {
   return createParameterObject("n", 10, headParams);
 };
 
+const parseValidatedInput = function(usrArgs,command){
+  let params = parseInput(usrArgs);
+  params.command = command;
+  validateMethod = {
+    head : validateHeadParameters,
+    tail : validateTailParameters
+  }
+  let validatedResult=validateMethod[command](params);
+  params.isValid = !validatedResult.status;
+  params.message = validatedResult.message;
+  return params;
+}
+
 const parseWithOptions = function(headParams) {
   if (headParams[0] == "-c" || headParams[0] == "-n") {
     return createParameterObject(
@@ -95,3 +108,4 @@ exports.validateHeadCount = validateHeadCount;
 exports.validateOption = validateOption
 exports.validateTailParameters = validateTailParameters;
 exports.validateHeadParameters = validateHeadParameters;
+exports.parseValidatedInput = parseValidatedInput;
