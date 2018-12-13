@@ -7,7 +7,7 @@ const {
   findHeadFunction,
   head,
   validateOption,
-  validateParameters,
+  validateHeadParameters,
   tail,
   runTail,
   validateHeadCount
@@ -253,9 +253,9 @@ describe("validateOption", function() {
   });
 });
 
-describe("validateParameters", function() {
+describe("validateHeadParameters", function() {
   it("should return object with status according to parameters", function() {
-    deepEqual(validateParameters({ type: "n", count: "3", files: ["file1"] ,command : "head"}), {
+    deepEqual(validateHeadParameters({ type: "n", count: "3", files: ["file1"] ,command : "head"}), {
       status: false,
       message: ""
     });

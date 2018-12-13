@@ -79,7 +79,7 @@ const validateOption = function({type,command}) {
   }
 };
 
-const validateParameters = function(headParams) {
+const validateHeadParameters = function(headParams) {
   let message = "";
   let status = false;
   let optionValidationResult = validateOption(headParams)
@@ -99,7 +99,7 @@ const head = function(fs, inputArgs) {
   let headParams = parseInput(inputArgs);
   headParams.command = "head";
   fileDetails = getFileDetails(fs, headParams.files, "head");
-  validationResult = validateParameters(headParams);
+  validationResult = validateHeadParameters(headParams);
 
   if (validationResult.status) {
     return validationResult.message;
@@ -181,7 +181,7 @@ exports.validateCount = validateCount;
 exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
-exports.validateParameters = validateParameters;
+exports.validateHeadParameters = validateHeadParameters;
 exports.validateOption = validateOption;
 exports.runTail = runTail;
 exports.tail = tail;
