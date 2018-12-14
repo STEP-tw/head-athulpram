@@ -5,7 +5,8 @@ const {
   getFileDetails,
   findHeadFunction,
   head,
-  tail,
+  runCommandOnFiles,
+  selectCrntFileData,
   runTail,
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
@@ -221,10 +222,10 @@ describe("head", function() {
   });
 });
 
-describe("tail", function() {
+describe("runCommandOnFiles", function() {
   it("should return all of file contents for an input of file details with single line", function() {
     deepEqual(
-      tail([{ name: "file1", content: "This is a file", exists: true }], {
+      runCommandOnFiles([{ name: "file1", content: "This is a file", exists: true }], {
         type: "n",
         count: "10",
         files: ["file1"],
@@ -248,7 +249,7 @@ describe("tail", function() {
     "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
   it("should return all of the file contents for an input of multiple files", function() {
     deepEqual(
-      tail([file1, file2], {
+      runCommandOnFiles([file1, file2], {
         type: "n",
         count: "10",
         files: ["file1", "file2"]
@@ -259,7 +260,7 @@ describe("tail", function() {
   it("should return all of the file contents for an input of multiple files", function() {
     exp_out = "==> file1 <==\nle content\n\n==> file2 <==\nle content";
     deepEqual(
-      tail([file1, file2], {
+      runCommandOnFiles([file1, file2], {
         type: "c",
         count: "10",
         files: ["file1", "file2"]
@@ -289,3 +290,12 @@ describe("runTail", function() {
     deepEqual(runTail(dummyFS, ["-nr", "file1"]), exp_out);
     });
 });
+
+describe("selectCrntFileData",function(){
+  it("should return an object with content of files delimiter and params",function(){
+    deepEqual(selectCrntFileData({contentOfFiles : [],delimiter : "",params:{type:"n",count : "2",files : ["file1"]}},{name : "file1",exists : true,content : "jijdfadjfksdajfojsdpof"}),
+    { contentOfFiles: [ 'jijdfadjfksdajfojsdpof' ],
+      delimiter: '',
+      params: { type: 'n', count: '2', files: [ 'file1' ] } });
+  })
+})
