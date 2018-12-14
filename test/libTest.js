@@ -4,7 +4,7 @@ const {
   selectFirstNBytes,
   getFileDetails,
   findHeadFunction,
-  head,
+  runHead,
   runCommandOnFiles,
   selectCrntFileData,
   runTail,
@@ -176,49 +176,49 @@ describe("findHeadFunction", function() {
   });
 });
 
-describe("head", function() {
+describe("runHead", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
-    deepEqual(head(dummyFS, ["file1"]), "This is a test file");
-    deepEqual(head(dummyFS, ["file2"]), "This is file 2");
+    deepEqual(runHead(dummyFS, ["file1"]), "This is a test file");
+    deepEqual(runHead(dummyFS, ["file2"]), "This is file 2");
   });
 
   it("should return content of multiple files with default arguments", function() {
     let exp_out =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(head(dummyFS, ["file1", "file2"]), exp_out);
+    deepEqual(runHead(dummyFS, ["file1", "file2"]), exp_out);
 
     exp_out =
       "==> file1 <==\nThis is a test file\n\n==> file3 <==\nThis is third file \n With 2 lines of content";
-    deepEqual(head(dummyFS, ["file1", "file3"]), exp_out);
+    deepEqual(runHead(dummyFS, ["file1", "file3"]), exp_out);
   });
 
   it("should return content of file with input of n and line numbers", function() {
     let exp_out =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(head(dummyFS, ["-n3", "file1", "file2"]), exp_out);
+    deepEqual(runHead(dummyFS, ["-n3", "file1", "file2"]), exp_out);
   });
 
   it("should return content of the file with input of c and byte count", function() {
     let exp_out = "==> file1 <==\nThi\n\n==> file2 <==\nThi";
-    deepEqual(head(dummyFS, ["-c3", "file1", "file2"]), exp_out);
+    deepEqual(runHead(dummyFS, ["-c3", "file1", "file2"]), exp_out);
   });
 
   it("should return first line of each file", function() {
     let exp_out =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(head(dummyFS, ["-1", "file1", "file2"]), exp_out);
+    deepEqual(runHead(dummyFS, ["-1", "file1", "file2"]), exp_out);
   });
 
   it("should return error messages for the following", function() {
     let exp_out = "head: file4: No such file or directory";
-    deepEqual(head(dummyFS, ["file4"]), exp_out);
+    deepEqual(runHead(dummyFS, ["file4"]), exp_out);
     exp_out =
       "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]";
-    deepEqual(head(dummyFS, ["-g4", "file1"]), exp_out);
+    deepEqual(runHead(dummyFS, ["-g4", "file1"]), exp_out);
     exp_out = "head: illegal line count -- 0";
-    deepEqual(head(dummyFS, ["-n0", "file1"]), exp_out);
+    deepEqual(runHead(dummyFS, ["-n0", "file1"]), exp_out);
     exp_out = "head: illegal byte count -- 0";
-    deepEqual(head(dummyFS, ["-c0", "file1"]), exp_out);
+    deepEqual(runHead(dummyFS, ["-c0", "file1"]), exp_out);
   });
 });
 

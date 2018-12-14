@@ -52,7 +52,7 @@ const selectFileContents = function(fileDetails, headParams) {
   return headOfFiles.join("\n");
 };
 
-const head = function(fs, inputArgs) {
+const runHead = function(fs, inputArgs) {
   let headParams = parseValidatedInput(inputArgs, "head");
   headParams.command = "head";
   fileDetails = getFileDetails(fs, headParams.files, "head");
@@ -131,7 +131,7 @@ const runTail = function(fs, inputArgs) {
 exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
-exports.head = head;
+exports.runHead = runHead;
 exports.validateCount = validateCount;
 exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
