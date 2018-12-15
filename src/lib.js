@@ -1,10 +1,5 @@
-const {
-  parseValidatedInput,
-} = require("./inputLib.js");
-const {
-  reverseContents,
-  errorMessages
-} = require("./utilLib.js");
+const { parseValidatedInput } = require("./inputLib.js");
+const { reverseContents, errorMessages } = require("./utilLib.js");
 
 const selectTopLines = function(fileContents, numberOfLines) {
   fileContents.trim();

@@ -6,7 +6,7 @@ const {
   runHead,
   runCommandOnFiles,
   selectCrntFileData,
-  runTail,
+  runTail
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
 
@@ -43,13 +43,12 @@ describe("selectFirstNBytes", function() {
   });
 });
 
-
 describe("runCommandOnFiles", function() {
   it("should return all of file contents for an input of file details with single line", function() {
     deepEqual(
       runCommandOnFiles(
         [{ name: "file1", content: "This is a file", exists: true }],
-        { type: "n", count: "10", files: ["file1"], command :"head" }
+        { type: "n", count: "10", files: ["file1"], command: "head" }
       ),
       "This is a file"
     );
@@ -71,7 +70,7 @@ describe("runCommandOnFiles", function() {
       runCommandOnFiles([file1, file2], {
         type: "n",
         count: "10",
-        command : "head",
+        command: "head",
         files: ["file1", "file2"]
       }),
       exp_out
@@ -83,7 +82,7 @@ describe("runCommandOnFiles", function() {
       runCommandOnFiles([file1, file2], {
         type: "c",
         count: "10",
-        command : "head",
+        command: "head",
         files: ["file1", "file2"]
       }),
       exp_out
@@ -128,15 +127,15 @@ describe("getFileDetails", function() {
     deepEqual(getFileDetails(dummyFS, ["file3"]), [directory.file3]);
   });
   it("should return a true exists and contents in objects in an array for input of multiple files", function() {
-    deepEqual(getFileDetails(dummyFS, ["file1", "file2"],"head"), [
+    deepEqual(getFileDetails(dummyFS, ["file1", "file2"], "head"), [
       directory.file1,
       directory.file2
     ]);
-    deepEqual(getFileDetails(dummyFS, ["file2", "file3"],"head"), [
+    deepEqual(getFileDetails(dummyFS, ["file2", "file3"], "head"), [
       directory.file2,
       directory.file3
     ]);
-    deepEqual(getFileDetails(dummyFS, ["file1", "file2", "file3"],"head"), [
+    deepEqual(getFileDetails(dummyFS, ["file1", "file2", "file3"], "head"), [
       directory.file1,
       directory.file2,
       directory.file3
@@ -144,7 +143,7 @@ describe("getFileDetails", function() {
   });
 
   it("should return a false exists and content as error message for file not found", function() {
-    deepEqual(getFileDetails(dummyFS, ["file4"],"head"), [
+    deepEqual(getFileDetails(dummyFS, ["file4"], "head"), [
       {
         name: "file4",
         exists: false,
@@ -155,7 +154,7 @@ describe("getFileDetails", function() {
 
   it("should return multiple objects with status according to file", function() {
     deepEqual(
-      getFileDetails(dummyFS, ["file1", "file4", "file2"],"head")[
+      getFileDetails(dummyFS, ["file1", "file4", "file2"], "head")[
         ({ name: "file1", exists: true, content: "This is a test file" },
         {
           name: "file4",
@@ -226,12 +225,15 @@ describe("runHead", function() {
 describe("runCommandOnFiles", function() {
   it("should return all of file contents for an input of file details with single line", function() {
     deepEqual(
-      runCommandOnFiles([{ name: "file1", content: "This is a file", exists: true }], {
-        type: "n",
-        count: "10",
-        files: ["file1"],
-        command : "tail"
-      }),
+      runCommandOnFiles(
+        [{ name: "file1", content: "This is a file", exists: true }],
+        {
+          type: "n",
+          count: "10",
+          files: ["file1"],
+          command: "tail"
+        }
+      ),
       "This is a file"
     );
   });
@@ -252,7 +254,7 @@ describe("runCommandOnFiles", function() {
     deepEqual(
       runCommandOnFiles([file1, file2], {
         type: "n",
-        command : "tail",
+        command: "tail",
         count: "10",
         files: ["file1", "file2"]
       }),
@@ -265,7 +267,7 @@ describe("runCommandOnFiles", function() {
       runCommandOnFiles([file1, file2], {
         type: "c",
         count: "10",
-        command : "tail",
+        command: "tail",
         files: ["file1", "file2"]
       }),
       exp_out
@@ -280,7 +282,10 @@ describe("runTail", function() {
   });
 
   it("should return a false exists and content as error message for file not found", function() {
-    deepEqual(runTail(dummyFS,["file4"]),"tail: file4: No such file or directory");
+    deepEqual(
+      runTail(dummyFS, ["file4"]),
+      "tail: file4: No such file or directory"
+    );
   });
 
   it("should return error messages for the following", function() {
@@ -291,14 +296,25 @@ describe("runTail", function() {
     deepEqual(runTail(dummyFS, ["-t", "file1"]), exp_out);
     exp_out = "tail: illegal offset -- r";
     deepEqual(runTail(dummyFS, ["-nr", "file1"]), exp_out);
-    });
+  });
 });
 
-describe("selectCrntFileData",function(){
-  it("should return an object with content of files delimiter and params",function(){
-    deepEqual(selectCrntFileData({contentOfFiles : [],delimiter : "",params:{type:"n",count : "2",files : ["file1"],command : "tail"}},{name : "file1",exists : true,content : "jijdfadjfksdajfojsdpof"}),
-    { contentOfFiles: [ 'jijdfadjfksdajfojsdpof' ],
-      delimiter: '',
-      params: {command : "tail", type: 'n', count: '2', files: [ 'file1' ] } });
-  })
-})
+describe("selectCrntFileData", function() {
+  it("should return an object with content of files delimiter and params", function() {
+    deepEqual(
+      selectCrntFileData(
+        {
+          contentOfFiles: [],
+          delimiter: "",
+          params: { type: "n", count: "2", files: ["file1"], command: "tail" }
+        },
+        { name: "file1", exists: true, content: "jijdfadjfksdajfojsdpof" }
+      ),
+      {
+        contentOfFiles: ["jijdfadjfksdajfojsdpof"],
+        delimiter: "",
+        params: { command: "tail", type: "n", count: "2", files: ["file1"] }
+      }
+    );
+  });
+});
