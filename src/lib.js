@@ -32,26 +32,6 @@ const findHeadFunction = function(type) {
   return headOptions[type];
 };
 
-const selectFileContents = function(fileDetails, headParams) {
-  const selectContents = findHeadFunction(headParams.type);
-  let headOfFiles = [];
-  let delimiter = "";
-  fileDetails.forEach(({ name, exists, content }) => {
-    headOfFiles.push(content);
-    if (exists) {
-      headOfFiles.pop(content);
-      let currentFileHead = "";
-      if (headParams.files.length > 1) {
-        currentFileHead = delimiter + "==> " + name + " <==\n";
-        delimiter = "\n";
-      }
-      currentFileHead += selectContents(content, headParams.count);
-      headOfFiles.push(currentFileHead);
-    }
-  });
-  return headOfFiles.join("\n");
-};
-
 const runHead = function(fs, inputArgs) {
   let headParams = parseValidatedInput(inputArgs, "head");
   headParams.command = "head";
@@ -60,7 +40,7 @@ const runHead = function(fs, inputArgs) {
   if (!headParams.isValid) {
     return headParams.message;
   }
-  return (headOfFiles = selectFileContents(fileDetails, headParams));
+  return (headOfFiles = runCommandOnFiles(fileDetails, headParams));
 };
 
 const getFileDetails = function(fs, headParams, command) {
@@ -89,22 +69,42 @@ const runCommandOnFiles = function(fileDetails, params) {
   return contentOfFiles.join("\n");
 };
 
+const head = function(headParams, delimiter, name, content, selectContents) {
+  let currentFileContent = "";
+  if (headParams.files.length > 1) {
+    currentFileContent = delimiter + "==> " + name + " <==\n";
+    delimiter = "\n";
+  }
+  currentFileContent += selectContents(content, headParams.count);
+  return { currentFileContent, delimiter };
+};
+
 const selectCrntFileData = function(
   { contentOfFiles, delimiter, params },
   { name, exists, content }
 ) {
+  let commandFunction = {
+    head: head,
+    tail: tail
+  };
   let selectContents = findHeadFunction(params.type);
   contentOfFiles.push(content);
   if (exists) {
     contentOfFiles.pop(content);
-    let currentFileContents = tail(params,delimiter,name,content,selectContents);
+    let currentFileContents = commandFunction[params.command](
+      params,
+      delimiter,
+      name,
+      content,
+      selectContents
+    );
     contentOfFiles.push(currentFileContents.currentFileContent);
     delimiter = currentFileContents.delimiter;
   }
   return { contentOfFiles, delimiter, params };
 };
 
-const tail = function(tailParams,delimiter,name,content,selectContents) {
+const tail = function(tailParams, delimiter, name, content, selectContents) {
   let currentFileContent = "";
   if (tailParams.files.length > 1) {
     currentFileContent = delimiter + "==> " + name + " <==\n";
@@ -113,7 +113,7 @@ const tail = function(tailParams,delimiter,name,content,selectContents) {
   let reversedContent = reverseContents(content);
   let currentTail = selectContents(reversedContent, tailParams.count);
   currentFileContent += reverseContents(currentTail);
-  return {currentFileContent,delimiter}
+  return { currentFileContent, delimiter };
 };
 
 const runTail = function(fs, inputArgs) {
@@ -133,7 +133,6 @@ exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
 exports.runHead = runHead;
 exports.validateCount = validateCount;
-exports.selectFileContents = selectFileContents;
 exports.getFileDetails = getFileDetails;
 exports.findHeadFunction = findHeadFunction;
 exports.validateHeadParameters = validateHeadParameters;

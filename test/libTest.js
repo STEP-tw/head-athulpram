@@ -1,5 +1,4 @@
 const {
-  selectFileContents,
   selectTopLines,
   selectFirstNBytes,
   getFileDetails,
@@ -45,12 +44,12 @@ describe("selectFirstNBytes", function() {
 });
 
 
-describe("selectFileContents", function() {
+describe("runCommandOnFiles", function() {
   it("should return all of file contents for an input of file details with single line", function() {
     deepEqual(
-      selectFileContents(
+      runCommandOnFiles(
         [{ name: "file1", content: "This is a file", exists: true }],
-        { type: "n", count: "10", files: ["file1"] }
+        { type: "n", count: "10", files: ["file1"], command :"head" }
       ),
       "This is a file"
     );
@@ -69,9 +68,10 @@ describe("selectFileContents", function() {
     "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
   it("should return all of the file contents for an input of multiple files", function() {
     deepEqual(
-      selectFileContents([file1, file2], {
+      runCommandOnFiles([file1, file2], {
         type: "n",
         count: "10",
+        command : "head",
         files: ["file1", "file2"]
       }),
       exp_out
@@ -80,9 +80,10 @@ describe("selectFileContents", function() {
   it("should return all of the file contents for an input of multiple files", function() {
     exp_out = "==> file1 <==\nThis is a \n\n==> file2 <==\nthis is a ";
     deepEqual(
-      selectFileContents([file1, file2], {
+      runCommandOnFiles([file1, file2], {
         type: "c",
         count: "10",
+        command : "head",
         files: ["file1", "file2"]
       }),
       exp_out
@@ -251,6 +252,7 @@ describe("runCommandOnFiles", function() {
     deepEqual(
       runCommandOnFiles([file1, file2], {
         type: "n",
+        command : "tail",
         count: "10",
         files: ["file1", "file2"]
       }),
@@ -263,6 +265,7 @@ describe("runCommandOnFiles", function() {
       runCommandOnFiles([file1, file2], {
         type: "c",
         count: "10",
+        command : "tail",
         files: ["file1", "file2"]
       }),
       exp_out
@@ -293,9 +296,9 @@ describe("runTail", function() {
 
 describe("selectCrntFileData",function(){
   it("should return an object with content of files delimiter and params",function(){
-    deepEqual(selectCrntFileData({contentOfFiles : [],delimiter : "",params:{type:"n",count : "2",files : ["file1"]}},{name : "file1",exists : true,content : "jijdfadjfksdajfojsdpof"}),
+    deepEqual(selectCrntFileData({contentOfFiles : [],delimiter : "",params:{type:"n",count : "2",files : ["file1"],command : "tail"}},{name : "file1",exists : true,content : "jijdfadjfksdajfojsdpof"}),
     { contentOfFiles: [ 'jijdfadjfksdajfojsdpof' ],
       delimiter: '',
-      params: { type: 'n', count: '2', files: [ 'file1' ] } });
+      params: {command : "tail", type: 'n', count: '2', files: [ 'file1' ] } });
   })
 })
