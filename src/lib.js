@@ -1,14 +1,7 @@
 const {
-  parseInput,
   parseValidatedInput,
-  validateHeadCount,
-  validateCount,
-  validateOption,
-  validateTailParameters,
-  validateHeadParameters
 } = require("./inputLib.js");
 const {
-  isNaturalNumber,
   reverseContents,
   errorMessages
 } = require("./utilLib.js");
@@ -24,7 +17,7 @@ const selectFirstNBytes = function(fileContents, numberOfBytes) {
   return fileContents.slice(0, numberOfBytes).join("");
 };
 
-const findHeadFunction = function(type) {
+const findSelectFunction = function(type) {
   let headOptions = {
     n: selectTopLines,
     c: selectFirstNBytes
@@ -87,7 +80,7 @@ const selectCrntFileData = function(
     head: head,
     tail: tail
   };
-  let selectContents = findHeadFunction(params.type);
+  let selectContents = findSelectFunction(params.type);
   contentOfFiles.push(content);
   if (exists) {
     contentOfFiles.pop(content);
@@ -128,14 +121,11 @@ const runTail = function(fs, inputArgs) {
   return runCommandOnFiles(fileDetails, tailParams);
 };
 
-exports.parseInput = parseInput;
 exports.selectTopLines = selectTopLines;
 exports.selectFirstNBytes = selectFirstNBytes;
 exports.runHead = runHead;
-exports.validateCount = validateCount;
 exports.getFileDetails = getFileDetails;
-exports.findHeadFunction = findHeadFunction;
-exports.validateHeadParameters = validateHeadParameters;
+exports.findSelectFunction = findSelectFunction;
 exports.runTail = runTail;
 exports.tail = tail;
 exports.runCommandOnFiles = runCommandOnFiles;

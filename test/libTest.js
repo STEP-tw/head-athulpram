@@ -2,7 +2,7 @@ const {
   selectTopLines,
   selectFirstNBytes,
   getFileDetails,
-  findHeadFunction,
+  findSelectFunction,
   runHead,
   runCommandOnFiles,
   selectCrntFileData,
@@ -168,12 +168,12 @@ describe("getFileDetails", function() {
   });
 });
 
-describe("findHeadFunction", function() {
+describe("findSelectFunction", function() {
   it("should return function selectTopLines", function() {
-    deepEqual(findHeadFunction("n"), selectTopLines);
+    deepEqual(findSelectFunction("n"), selectTopLines);
   });
   it("should return function selectFirstNBytes", function() {
-    deepEqual(findHeadFunction("c"), selectFirstNBytes);
+    deepEqual(findSelectFunction("c"), selectFirstNBytes);
   });
 });
 
