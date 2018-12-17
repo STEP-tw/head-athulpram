@@ -104,7 +104,6 @@ const validateHeadParameters = function(headParams) {
 };
 
 exports.parseInput = parseInput;
-exports.parseWithOptions = parseWithOptions;
 exports.createParameterObject = createParameterObject;
 exports.validateCount = validateCount;
 exports.validateHeadCount = validateHeadCount;

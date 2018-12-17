@@ -1,6 +1,5 @@
 const {
   parseInput,
-  parseWithOptions,
   createParameterObject,
   validateCount,
   validateOption,
@@ -99,87 +98,6 @@ describe("parseInput", function() {
 
   });
 
-});
-
-describe("parseWithOptions", function() {
-  it("should return an object with type n and count as given and rest as files in an input of array", function() {
-    let expectedOutput = {
-      type: "n",
-      count: "1",
-      files: ["file1"]
-    };
-    deepEqual(parseWithOptions(["-n1", "file1"]), expectedOutput);
-
-    expectedOutput = {
-      type: "n",
-      count: "2",
-      files: ["file1", "file2"]
-    };
-    deepEqual(parseWithOptions(["-n2", "file1", "file2"]), expectedOutput);
-  });
-
-  it("should return an object with type c and count as given and rest as files in an input of array", function() {
-    let expectedOutput = {
-      type: "c",
-      count: "1",
-      files: ["file1"]
-    };
-    deepEqual(parseWithOptions(["-c1", "file1"]), expectedOutput);
-
-    expectedOutput = {
-      type: "c",
-      count: "2",
-      files: ["file1", "file2"]
-    };
-    deepEqual(parseWithOptions(["-c2", "file1", "file2"]), expectedOutput);
-  });
-  it("should return an object with type n and count as given and rest as files in an input of array without type", function() {
-    let expectedOutput = {
-      type: "n",
-      count: "1",
-      files: ["file1"]
-    };
-    deepEqual(parseWithOptions(["-1", "file1"]), expectedOutput);
-
-    expectedOutput = {
-      type: "n",
-      count: "2",
-      files: ["file1", "file2"]
-    };
-    deepEqual(parseWithOptions(["-2", "file1", "file2"]), expectedOutput);
-  });
-
-  it("should return an object with type n and count as given and rest as files in an input of array with type and count as seperate", function() {
-    let expectedOutput = {
-      type: "n",
-      count: "1",
-      files: ["file1"]
-    };
-    deepEqual(parseWithOptions(["-n", "1", "file1"]), expectedOutput);
-
-    expectedOutput = {
-      type: "n",
-      count: "2",
-      files: ["file1", "file2"]
-    };
-    deepEqual(parseWithOptions(["-n", "2", "file1", "file2"]), expectedOutput);
-  });
-
-  it("should return an object with type c and count as given and rest as files in an input of array", function() {
-    let expectedOutput = {
-      type: "c",
-      count: "1",
-      files: ["file1"]
-    };
-    deepEqual(parseWithOptions(["-c", "1", "file1"]), expectedOutput);
-
-    expectedOutput = {
-      type: "c",
-      count: "2",
-      files: ["file1", "file2"]
-    };
-    deepEqual(parseWithOptions(["-c", "2", "file1", "file2"]), expectedOutput);
-  });
 });
 
 describe("createParameterObject", function() {
