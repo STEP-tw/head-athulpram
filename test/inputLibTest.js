@@ -13,193 +13,200 @@ const { deepEqual } = require("assert");
 
 describe("parseInput", function() {
   describe("passing only file names", function() {
-    it("should return an object with count as 10 and file name in files array while passing file name as input", function() {
+    it("should return an object with count as 10 and a file name in files array while passing one file as input", function() {
       let expectedOutput = {
         type: "n",
         count: 10,
         files: ["fileName.txt"]
       };
-      deepEqual(parseInput(["fileName.txt"]),expectedOutput);
+      deepEqual(parseInput(["fileName.txt"]), expectedOutput);
     });
 
-    expectedOutput = {
-      type: "n",
-      count: 10,
-      files: ["fileName.txt", "fileName2.txt"]
-    };
-    it("should return an object with count as 10 and file names in files array while passing file names as input", function() {
-      deepEqual(parseInput(["fileName.txt", "fileName2.txt"]),expectedOutput);
+    it("should return an object with count as 10 and file names in files array while passing multiple file names as input", function() {
+      expectedOutput = {
+        type: "n",
+        count: 10,
+        files: ["fileName.txt", "fileName2.txt", "fileName3.txt"]
+      };
+      deepEqual(
+        parseInput(["fileName.txt", "fileName2.txt", "fileName3.txt"]),
+        expectedOutput
+      );
     });
   });
 
-  it("should return an object with type n and count, fileName in files array while passing the count & fileName as input", () => {
-    let expectedOutput = {
-      type: "n",
-      count: 0,
-      files: ["file.txt"]
-    };
-    deepEqual(parseInput(["-0", "file.txt"]),expectedOutput);
+  describe("test by passing count in input", function() {
+    it("should return an object with type n and count, fileName in files array while passing the count & fileName as input", () => {
+      let expectedOutput = {
+        type: "n",
+        count: 10,
+        files: ["file.txt", "file2.txt", "file3.txt"]
+      };
+      deepEqual(
+        parseInput(["-10", "file.txt", "file2.txt", "file3.txt"]),
+        expectedOutput
+      );
+    });
+  });
+  describe("test by passing option n in input", function() {
+    it("should return an object of type, count and fileNames when option and count passed together", function() {
+      let expectedOutput = {
+        type: "n",
+        count: 1,
+        files: ["file.txt"]
+      };
+      deepEqual(parseInput(["-n1", "file.txt"]), expectedOutput);
+    });
 
-    expectedOutput = {
-      type: "n",
-      count: 10,
-      files: ["file.txt", "file2.txt", "file3.txt"]
-    };
-    deepEqual(parseInput(["-10", "file.txt", "file2.txt", "file3.txt"]),expectedOutput);
+    it("should return an object of type,count and fileNames when option and count passed seperately", function() {
+      expectedOutput = {
+        type: "n",
+        count: 10,
+        files: ["file.txt"]
+      };
+      deepEqual(parseInput(["-n", "10", "file.txt"]), expectedOutput);
+    });
+
   });
 
-  it("should return an object of type, count and fileNames when all three arguments are passed", function() {
-    let expectedOutput = {
-      type: "n",
-      count: 1,
-      files: ["file.txt"]
-    };
-    deepEqual(parseInput(["-n1", "file.txt"]), expectedOutput);
+  describe("test by passing option c in input", function() {
 
-    expectedOutput = {
-      type: "n",
-      count: 10,
-      files: ["file.txt"]
-    };
-    deepEqual(parseInput(["-n", "10", "file.txt"]),expectedOutput);
+    it("should return an object of type c and count of given value for passing input", function() {
+      let expectedOutput = {
+        type: "c",
+        count: 1,
+        files: ["file.txt", "file2.txt"]
+      };
+      deepEqual(parseInput(["-c1", "file.txt", "file2.txt"]), expectedOutput);
 
-    expectedOutput = {
-      type: "n",
-      count: -1,
-      files: ["file.txt", "file2.txt"]
-    };
-    deepEqual(parseInput(["-n", "-1", "file.txt", "file2.txt"]),expectedOutput);
+      expectedOutput = {
+        type: "c",
+        count: 1,
+        files: ["file.txt"]
+      };
+      deepEqual(parseInput(["-c", "1", "file.txt"]), expectedOutput);
+
+      expectedOutput = {
+        type: "c",
+        count: 1,
+        files: ["file.txt", "file2.txt"]
+      };
+      deepEqual(
+        parseInput(["-c", "1", "file.txt", "file2.txt"]),
+        expectedOutput
+      );
+    });
+
   });
 
-  it("should return an object of type c and count of given value for passing input", function() {
-    let expectedOutput = {
-      type: "c",
-      count: 1,
-      files: ["file.txt", "file2.txt"]
-    };
-    deepEqual(parseInput(["-c1", "file.txt", "file2.txt"]),expectedOutput);
-
-    expectedOutput = {
-      type: "c",
-      count: 1,
-      files: ["file.txt"]
-    };
-    deepEqual(parseInput(["-c", "1", "file.txt"]),expectedOutput);
-
-    expectedOutput = {
-      type: "c",
-      count: 1,
-      files: ["file.txt", "file2.txt"]
-    };
-    deepEqual(parseInput(["-c", "1", "file.txt", "file2.txt"]),expectedOutput);
-  });
 });
 
 describe("parseWithOptions", function() {
   it("should return an object with type n and count as given and rest as files in an input of array", function() {
-    let expectedOutput =  {
+    let expectedOutput = {
       type: "n",
       count: "1",
       files: ["file1"]
     };
-    deepEqual(parseWithOptions(["-n1", "file1"]),expectedOutput);
+    deepEqual(parseWithOptions(["-n1", "file1"]), expectedOutput);
 
     expectedOutput = {
       type: "n",
       count: "2",
       files: ["file1", "file2"]
     };
-    deepEqual(parseWithOptions(["-n2", "file1", "file2"]),expectedOutput);
+    deepEqual(parseWithOptions(["-n2", "file1", "file2"]), expectedOutput);
   });
 
   it("should return an object with type c and count as given and rest as files in an input of array", function() {
-    let expectedOutput =  {
+    let expectedOutput = {
       type: "c",
       count: "1",
       files: ["file1"]
     };
-    deepEqual(parseWithOptions(["-c1", "file1"]),expectedOutput);
+    deepEqual(parseWithOptions(["-c1", "file1"]), expectedOutput);
 
     expectedOutput = {
       type: "c",
       count: "2",
       files: ["file1", "file2"]
     };
-    deepEqual(parseWithOptions(["-c2", "file1", "file2"]),expectedOutput);
+    deepEqual(parseWithOptions(["-c2", "file1", "file2"]), expectedOutput);
   });
   it("should return an object with type n and count as given and rest as files in an input of array without type", function() {
-    let expectedOutput =  {
+    let expectedOutput = {
       type: "n",
       count: "1",
       files: ["file1"]
     };
-    deepEqual(parseWithOptions(["-1", "file1"]),expectedOutput);
+    deepEqual(parseWithOptions(["-1", "file1"]), expectedOutput);
 
-    expectedOutput =  {
+    expectedOutput = {
       type: "n",
       count: "2",
       files: ["file1", "file2"]
     };
-    deepEqual(parseWithOptions(["-2", "file1", "file2"]),expectedOutput);
+    deepEqual(parseWithOptions(["-2", "file1", "file2"]), expectedOutput);
   });
 
   it("should return an object with type n and count as given and rest as files in an input of array with type and count as seperate", function() {
-    let expectedOutput =  {
+    let expectedOutput = {
       type: "n",
       count: "1",
       files: ["file1"]
     };
-    deepEqual(parseWithOptions(["-n", "1", "file1"]),expectedOutput);
+    deepEqual(parseWithOptions(["-n", "1", "file1"]), expectedOutput);
 
     expectedOutput = {
       type: "n",
       count: "2",
       files: ["file1", "file2"]
     };
-    deepEqual(parseWithOptions(["-n", "2", "file1", "file2"]),expectedOutput);
+    deepEqual(parseWithOptions(["-n", "2", "file1", "file2"]), expectedOutput);
   });
 
   it("should return an object with type c and count as given and rest as files in an input of array", function() {
-
-    let expectedOutput =  {
+    let expectedOutput = {
       type: "c",
       count: "1",
       files: ["file1"]
     };
-    deepEqual(parseWithOptions(["-c", "1", "file1"]),expectedOutput);
+    deepEqual(parseWithOptions(["-c", "1", "file1"]), expectedOutput);
 
-    expectedOutput =  {
+    expectedOutput = {
       type: "c",
       count: "2",
       files: ["file1", "file2"]
     };
-    deepEqual(parseWithOptions(["-c", "2", "file1", "file2"]),expectedOutput);
+    deepEqual(parseWithOptions(["-c", "2", "file1", "file2"]), expectedOutput);
   });
 });
 
 describe("createParameterObject", function() {
   it("should return all three parameters passed in function as object", function() {
-
-    let expectedOutput =  {
+    let expectedOutput = {
       type: "n",
       count: "10",
       files: ["file"]
     };
-    deepEqual(createParameterObject("n", "10", ["file"]),expectedOutput);
+    deepEqual(createParameterObject("n", "10", ["file"]), expectedOutput);
 
-    expectedOutput =  {
+    expectedOutput = {
       type: "c",
       count: "10",
       files: ["file"]
     };
-    deepEqual(createParameterObject("c", "10", ["file"]),expectedOutput);
+    deepEqual(createParameterObject("c", "10", ["file"]), expectedOutput);
 
     expectedOutput = {
       type: "n",
       count: "10",
       files: ["file", "file1"]
     };
-    deepEqual(createParameterObject("n", "10", ["file", "file1"]),expectedOutput);
+    deepEqual(
+      createParameterObject("n", "10", ["file", "file1"]),
+      expectedOutput
+    );
   });
 });
 
@@ -253,11 +260,11 @@ describe("validateTailParameters", function() {
       files: ["file1"],
       command: "tail"
     };
-    let expectedOutput =  {
+    let expectedOutput = {
       status: false,
       message: ""
     };
-    deepEqual(validateTailParameters(input),expectedOutput);
+    deepEqual(validateTailParameters(input), expectedOutput);
 
     input = {
       type: "c",
@@ -269,7 +276,7 @@ describe("validateTailParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateTailParameters(input),expectedOutput);
+    deepEqual(validateTailParameters(input), expectedOutput);
 
     input = {
       type: "n",
@@ -281,7 +288,7 @@ describe("validateTailParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateTailParameters(input),expectedOutput);
+    deepEqual(validateTailParameters(input), expectedOutput);
   });
 
   it("should return no error message for count of zero", function() {
@@ -296,7 +303,7 @@ describe("validateTailParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateTailParameters(input),expectedOutput);
+    deepEqual(validateTailParameters(input), expectedOutput);
   });
   it("should return no error message for negative values of count", function() {
     let input = {
@@ -310,7 +317,7 @@ describe("validateTailParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateTailParameters(input),expectedOutput);
+    deepEqual(validateTailParameters(input), expectedOutput);
   });
 });
 
@@ -327,7 +334,7 @@ describe("validateHeadParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateHeadParameters(input),expectedOutput);
+    deepEqual(validateHeadParameters(input), expectedOutput);
 
     input = {
       type: "c",
@@ -340,7 +347,7 @@ describe("validateHeadParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateHeadParameters(input),expectedOutput);
+    deepEqual(validateHeadParameters(input), expectedOutput);
 
     input = {
       type: "n",
@@ -353,7 +360,7 @@ describe("validateHeadParameters", function() {
       status: false,
       message: ""
     };
-    deepEqual(validateHeadParameters(input),expectedOutput);
+    deepEqual(validateHeadParameters(input), expectedOutput);
   });
   it("should return no error message for count of zero", function() {
     let input = {
@@ -367,10 +374,9 @@ describe("validateHeadParameters", function() {
       status: true,
       message: "head: illegal line count -- 0"
     };
-    deepEqual(validateHeadParameters(input),expectedOutput);
+    deepEqual(validateHeadParameters(input), expectedOutput);
   });
   it("should return no error message for negative values of count", function() {
-
     let input = {
       type: "n",
       count: "-1",
@@ -382,7 +388,7 @@ describe("validateHeadParameters", function() {
       status: true,
       message: "head: illegal line count -- -1"
     };
-    deepEqual(validateHeadParameters(input),expectedOutput);
+    deepEqual(validateHeadParameters(input), expectedOutput);
   });
 });
 
