@@ -48,7 +48,7 @@ describe("runCommandOnFiles", function() {
     deepEqual(
       runCommandOnFiles(
         [{ name: "file1", content: "This is a file", exists: true }],
-        { type: "n", count: "10", files: ["file1"], command: "head" }
+        { option: "n", count: "10", files: ["file1"], command: "head" }
       ),
       "This is a file"
     );
@@ -68,7 +68,7 @@ describe("runCommandOnFiles", function() {
   it("should return all of the file contents for an input of multiple files", function() {
     deepEqual(
       runCommandOnFiles([file1, file2], {
-        type: "n",
+        option: "n",
         count: "10",
         command: "head",
         files: ["file1", "file2"]
@@ -80,7 +80,7 @@ describe("runCommandOnFiles", function() {
     expOut = "==> file1 <==\nThis is a \n\n==> file2 <==\nthis is a ";
     deepEqual(
       runCommandOnFiles([file1, file2], {
-        type: "c",
+        option: "c",
         count: "10",
         command: "head",
         files: ["file1", "file2"]
@@ -228,7 +228,7 @@ describe("runCommandOnFiles", function() {
       runCommandOnFiles(
         [{ name: "file1", content: "This is a file", exists: true }],
         {
-          type: "n",
+          option: "n",
           count: "10",
           files: ["file1"],
           command: "tail"
@@ -253,7 +253,7 @@ describe("runCommandOnFiles", function() {
   it("should return all of the file contents for an input of multiple files", function() {
     deepEqual(
       runCommandOnFiles([file1, file2], {
-        type: "n",
+        option: "n",
         command: "tail",
         count: "10",
         files: ["file1", "file2"]
@@ -265,7 +265,7 @@ describe("runCommandOnFiles", function() {
     expOut = "==> file1 <==\nle content\n\n==> file2 <==\nle content";
     deepEqual(
       runCommandOnFiles([file1, file2], {
-        type: "c",
+        option: "c",
         count: "10",
         command: "tail",
         files: ["file1", "file2"]
@@ -306,19 +306,19 @@ describe("selectCrntFileData", function() {
         {
           contentOfFiles: [],
           delimiter: "",
-          params: { type: "n", count: "2", files: ["file1"], command: "tail" }
+          params: { option: "n", count: "2", files: ["file1"], command: "tail" }
         },
         { name: "file1", exists: true, content: "jijdfadjfksdajfojsdpof" }
       ),
       {
         contentOfFiles: ["jijdfadjfksdajfojsdpof"],
         delimiter: "",
-        params: { command: "tail", type: "n", count: "2", files: ["file1"] }
+        params: { command: "tail", option: "n", count: "2", files: ["file1"] }
       }
     );
   });
   it("should return an object with content of files and delimiter and params", function() {
-    let params = { type: "c", count: "2", files: ["file1"], command: "tail" };
+    let params = { option: "c", count: "2", files: ["file1"], command: "tail" };
     let fileDetails = {
       name: "file1",
       exists: true,
@@ -327,7 +327,7 @@ describe("selectCrntFileData", function() {
     let expOut = {
       contentOfFiles: ["nt"],
       delimiter: "",
-      params: { type: "c", count: "2", command: "tail", files: ["file1"] }
+      params: { option: "c", count: "2", command: "tail", files: ["file1"] }
     };
     deepEqual(
       selectCrntFileData(

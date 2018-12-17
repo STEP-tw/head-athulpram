@@ -12,12 +12,12 @@ const selectFirstNBytes = function(fileContents, numberOfBytes) {
   return fileContents.slice(0, numberOfBytes).join("");
 };
 
-const findSelectFunction = function(type) {
+const findSelectFunction = function(option) {
   let headOptions = {
     n: selectTopLines,
     c: selectFirstNBytes
   };
-  return headOptions[type];
+  return headOptions[option];
 };
 
 const runHead = function(fs, inputArgs) {
@@ -75,7 +75,7 @@ const selectCrntFileData = function(
     head: head,
     tail: tail
   };
-  let selectContents = findSelectFunction(params.type);
+  let selectContents = findSelectFunction(params.option);
   contentOfFiles.push(content);
   if (exists) {
     contentOfFiles.pop(content);

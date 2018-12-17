@@ -1,6 +1,6 @@
 const { errorMessages, isNaturalNumber } = require("./utilLib.js");
-const createParameterObject = function(type, count, files) {
-  return { type, count, files };
+const createParameterObject = function(option, count, files) {
+  return { option, count, files };
 };
 
 const parseInput = function(headParams) {
@@ -48,7 +48,7 @@ const validateHeadCount = function(count) {
   return isNaturalNumber(count) && !isNaN(count);
 };
 
-const validateCount = function({ count, type }) {
+const validateCount = function({ count, option }) {
   optionCountName = {
     c: "byte",
     n: "line"
@@ -57,17 +57,17 @@ const validateCount = function({ count, type }) {
     return { status: true, message: "" };
   }
   return {
-    message: "head: illegal " + optionCountName[type] + " count -- " + count,
+    message: "head: illegal " + optionCountName[option] + " count -- " + count,
     status: false
   };
 };
 
-const validateOption = function({ type, command }) {
+const validateOption = function({ option, command }) {
   return {
-    status: type != "c" && type != "n",
+    status: option != "c" && option != "n",
     message:
       errorMessages[command].illegalOption +
-      type +
+      option +
       "\n" +
       errorMessages[command].usage
   };

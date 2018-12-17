@@ -14,7 +14,7 @@ describe("parseInput", function() {
   describe("passing only file names", function() {
     it("should return an object with count as 10 and a file name in files array while passing one file as input", function() {
       let expectedOutput = {
-        type: "n",
+        option: "n",
         count: 10,
         files: ["fileName.txt"]
       };
@@ -23,7 +23,7 @@ describe("parseInput", function() {
 
     it("should return an object with count as 10 and file names in files array while passing multiple file names as input", function() {
       expectedOutput = {
-        type: "n",
+        option: "n",
         count: 10,
         files: ["fileName.txt", "fileName2.txt", "fileName3.txt"]
       };
@@ -35,9 +35,9 @@ describe("parseInput", function() {
   });
 
   describe("test by passing count in input", function() {
-    it("should return an object with type n and count, fileName in files array while passing the count & fileName as input", () => {
+    it("should return an object with option n and count, fileName in files array while passing the count & fileName as input", () => {
       let expectedOutput = {
-        type: "n",
+        option: "n",
         count: 10,
         files: ["file.txt", "file2.txt", "file3.txt"]
       };
@@ -48,18 +48,18 @@ describe("parseInput", function() {
     });
   });
   describe("test by passing option n in input", function() {
-    it("should return an object of type, count and fileNames when option and count passed together", function() {
+    it("should return an object of option, count and fileNames when option and count passed together", function() {
       let expectedOutput = {
-        type: "n",
+        option: "n",
         count: 1,
         files: ["file.txt"]
       };
       deepEqual(parseInput(["-n1", "file.txt"]), expectedOutput);
     });
 
-    it("should return an object of type,count and fileNames when option and count passed seperately", function() {
+    it("should return an object of option,count and fileNames when option and count passed seperately", function() {
       expectedOutput = {
-        type: "n",
+        option: "n",
         count: 10,
         files: ["file.txt"]
       };
@@ -68,23 +68,23 @@ describe("parseInput", function() {
   });
 
   describe("test by passing option c in input", function() {
-    it("should return an object of type c and count of given value for passing input", function() {
+    it("should return an object of option c and count of given value for passing input", function() {
       let expectedOutput = {
-        type: "c",
+        option: "c",
         count: 1,
         files: ["file.txt", "file2.txt"]
       };
       deepEqual(parseInput(["-c1", "file.txt", "file2.txt"]), expectedOutput);
 
       expectedOutput = {
-        type: "c",
+        option: "c",
         count: 1,
         files: ["file.txt"]
       };
       deepEqual(parseInput(["-c", "1", "file.txt"]), expectedOutput);
 
       expectedOutput = {
-        type: "c",
+        option: "c",
         count: 1,
         files: ["file.txt", "file2.txt"]
       };
@@ -99,21 +99,21 @@ describe("parseInput", function() {
 describe("createParameterObject", function() {
   it("should return all three parameters passed in function as object", function() {
     let expectedOutput = {
-      type: "n",
+      option: "n",
       count: "10",
       files: ["file"]
     };
     deepEqual(createParameterObject("n", "10", ["file"]), expectedOutput);
 
     expectedOutput = {
-      type: "c",
+      option: "c",
       count: "10",
       files: ["file"]
     };
     deepEqual(createParameterObject("c", "10", ["file"]), expectedOutput);
 
     expectedOutput = {
-      type: "n",
+      option: "n",
       count: "10",
       files: ["file", "file1"]
     };
@@ -130,7 +130,7 @@ describe("validate count", function() {
       status: true,
       message: ""
     };
-    deepEqual(validateCount({ type: "c", count: 1 }), expectedOutput);
+    deepEqual(validateCount({ option: "c", count: 1 }), expectedOutput);
   });
 
   it("should return an object with status false and error message in message for a negative value", function() {
@@ -138,13 +138,13 @@ describe("validate count", function() {
       status: false,
       message: "head: illegal byte count -- -1"
     };
-    deepEqual(validateCount({ type: "c", count: -1 }), expectedOutput);
+    deepEqual(validateCount({ option: "c", count: -1 }), expectedOutput);
   });
 });
 
 describe("validateOption", function() {
   it("should return true for all except n and c", function() {
-    deepEqual(validateOption({ type: "g", command: "head" }), {
+    deepEqual(validateOption({ option: "g", command: "head" }), {
       status: true,
       message:
         "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]"
@@ -169,7 +169,7 @@ describe("validateHead", () => {
 describe("validateTailParameters", function() {
   it("should return object with status according to parameters", function() {
     let input = {
-      type: "n",
+      option: "n",
       count: "3",
       files: ["file1"],
       command: "tail"
@@ -181,7 +181,7 @@ describe("validateTailParameters", function() {
     deepEqual(validateTailParameters(input), expectedOutput);
 
     input = {
-      type: "c",
+      option: "c",
       count: "10",
       files: ["file1"],
       command: "tail"
@@ -193,7 +193,7 @@ describe("validateTailParameters", function() {
     deepEqual(validateTailParameters(input), expectedOutput);
 
     input = {
-      type: "n",
+      option: "n",
       count: "10",
       files: ["file1"],
       command: "tail"
@@ -207,7 +207,7 @@ describe("validateTailParameters", function() {
 
   it("should return no error message for count of zero", function() {
     let input = {
-      type: "n",
+      option: "n",
       count: "0",
       files: ["file1"],
       command: "tail"
@@ -221,7 +221,7 @@ describe("validateTailParameters", function() {
   });
   it("should return no error message for negative values of count", function() {
     let input = {
-      type: "n",
+      option: "n",
       count: "-1",
       files: ["file1"],
       command: "tail"
@@ -238,7 +238,7 @@ describe("validateTailParameters", function() {
 describe("validateHeadParameters", function() {
   it("should return object with status according to parameters", function() {
     let input = {
-      type: "n",
+      option: "n",
       count: "3",
       files: ["file1"],
       command: "tail"
@@ -251,7 +251,7 @@ describe("validateHeadParameters", function() {
     deepEqual(validateHeadParameters(input), expectedOutput);
 
     input = {
-      type: "c",
+      option: "c",
       count: "10",
       files: ["file1"],
       command: "tail"
@@ -264,7 +264,7 @@ describe("validateHeadParameters", function() {
     deepEqual(validateHeadParameters(input), expectedOutput);
 
     input = {
-      type: "n",
+      option: "n",
       count: "10",
       files: ["file1"],
       command: "tail"
@@ -278,7 +278,7 @@ describe("validateHeadParameters", function() {
   });
   it("should return no error message for count of zero", function() {
     let input = {
-      type: "n",
+      option: "n",
       count: "0",
       files: ["file1"],
       command: "tail"
@@ -292,7 +292,7 @@ describe("validateHeadParameters", function() {
   });
   it("should return no error message for negative values of count", function() {
     let input = {
-      type: "n",
+      option: "n",
       count: "-1",
       files: ["file1"],
       command: "tail"
@@ -310,7 +310,7 @@ describe("parseValidatedInput", function() {
   describe("passing only file names", function() {
     it("should return an object with count as 10 and file name in files array while passing file name as input", function() {
       let expectedOutput = {
-        type: "n",
+        option: "n",
         count: 10,
         files: ["fileName.txt"],
         command: "head",
