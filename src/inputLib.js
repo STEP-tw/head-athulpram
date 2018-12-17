@@ -103,11 +103,13 @@ const validateHeadParameters = function(headParams) {
   return { status, message };
 };
 
-exports.parseInput = parseInput;
-exports.createParameterObject = createParameterObject;
-exports.validateCount = validateCount;
-exports.validateHeadCount = validateHeadCount;
-exports.validateOption = validateOption;
-exports.validateTailParameters = validateTailParameters;
-exports.validateHeadParameters = validateHeadParameters;
-exports.parseValidatedInput = parseValidatedInput;
+module.exports = {
+  parseInput,
+  createParameterObject,
+  validateCount,
+  validateHeadCount,
+  validateOption,
+  validateTailParameters,
+  validateHeadParameters,
+  parseValidatedInput
+};

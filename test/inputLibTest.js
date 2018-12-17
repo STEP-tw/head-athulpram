@@ -65,11 +65,9 @@ describe("parseInput", function() {
       };
       deepEqual(parseInput(["-n", "10", "file.txt"]), expectedOutput);
     });
-
   });
 
   describe("test by passing option c in input", function() {
-
     it("should return an object of type c and count of given value for passing input", function() {
       let expectedOutput = {
         type: "c",
@@ -95,9 +93,7 @@ describe("parseInput", function() {
         expectedOutput
       );
     });
-
   });
-
 });
 
 describe("createParameterObject", function() {

@@ -116,12 +116,14 @@ const runTail = function(fs, inputArgs) {
   return runCommandOnFiles(fileDetails, tailParams);
 };
 
-exports.selectTopLines = selectTopLines;
-exports.selectFirstNBytes = selectFirstNBytes;
-exports.runHead = runHead;
-exports.getFileDetails = getFileDetails;
-exports.findSelectFunction = findSelectFunction;
-exports.runTail = runTail;
-exports.tail = tail;
-exports.runCommandOnFiles = runCommandOnFiles;
-exports.selectCrntFileData = selectCrntFileData;
+module.exports = {
+  selectTopLines,
+  selectFirstNBytes,
+  runHead,
+  getFileDetails,
+  findSelectFunction,
+  runTail,
+  tail,
+  runCommandOnFiles,
+  selectCrntFileData
+};

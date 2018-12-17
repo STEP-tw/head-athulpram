@@ -22,7 +22,8 @@ const reverseContents = function(content) {
     .reverse()
     .join("");
 };
-
-exports.isNaturalNumber = isNaturalNumber;
-exports.reverseContents = reverseContents;
-exports.errorMessages = errorMessages;
+module.exports = {
+  isNaturalNumber,
+  reverseContents,
+  errorMessages
+};
