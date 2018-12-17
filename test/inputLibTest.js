@@ -96,34 +96,6 @@ describe("parseInput", function() {
   });
 });
 
-describe("createParameterObject", function() {
-  it("should return all three parameters passed in function as object", function() {
-    let expectedOutput = {
-      option: "n",
-      count: "10",
-      files: ["file"]
-    };
-    deepEqual(createParameterObject("n", "10", ["file"]), expectedOutput);
-
-    expectedOutput = {
-      option: "c",
-      count: "10",
-      files: ["file"]
-    };
-    deepEqual(createParameterObject("c", "10", ["file"]), expectedOutput);
-
-    expectedOutput = {
-      option: "n",
-      count: "10",
-      files: ["file", "file1"]
-    };
-    deepEqual(
-      createParameterObject("n", "10", ["file", "file1"]),
-      expectedOutput
-    );
-  });
-});
-
 describe("validate count", function() {
   it("should return an object with status true and a empty message for a valid count", function() {
     let expectedOutput = {
