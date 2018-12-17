@@ -63,7 +63,7 @@ describe("runCommandOnFiles", function() {
     content: "this is a file content",
     exists: true
   };
-  let expOut =
+  let expectedOutput =
     "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
   it("should return all of the file contents for an input of multiple files", function() {
     deepEqual(
@@ -73,11 +73,11 @@ describe("runCommandOnFiles", function() {
         command: "head",
         files: ["file1", "file2"]
       }),
-      expOut
+      expectedOutput
     );
   });
   it("should return all of the file contents for an input of multiple files", function() {
-    expOut = "==> file1 <==\nThis is a \n\n==> file2 <==\nthis is a ";
+    expectedOutput = "==> file1 <==\nThis is a \n\n==> file2 <==\nthis is a ";
     deepEqual(
       runCommandOnFiles([file1, file2], {
         option: "c",
@@ -85,7 +85,7 @@ describe("runCommandOnFiles", function() {
         command: "head",
         files: ["file1", "file2"]
       }),
-      expOut
+      expectedOutput
     );
   });
 });
@@ -183,42 +183,42 @@ describe("runHead", function() {
   });
 
   it("should return content of multiple files with default arguments", function() {
-    let expOut =
+    let expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(runHead(dummyFS, ["file1", "file2"]), expOut);
+    deepEqual(runHead(dummyFS, ["file1", "file2"]), expectedOutput);
 
-    expOut =
+    expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file3 <==\nThis is third file \n With 2 lines of content";
-    deepEqual(runHead(dummyFS, ["file1", "file3"]), expOut);
+    deepEqual(runHead(dummyFS, ["file1", "file3"]), expectedOutput);
   });
 
   it("should return content of file with input of n and line numbers", function() {
-    let expOut =
+    let expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(runHead(dummyFS, ["-n3", "file1", "file2"]), expOut);
+    deepEqual(runHead(dummyFS, ["-n3", "file1", "file2"]), expectedOutput);
   });
 
   it("should return content of the file with input of c and byte count", function() {
-    let expOut = "==> file1 <==\nThi\n\n==> file2 <==\nThi";
-    deepEqual(runHead(dummyFS, ["-c3", "file1", "file2"]), expOut);
+    let expectedOutput = "==> file1 <==\nThi\n\n==> file2 <==\nThi";
+    deepEqual(runHead(dummyFS, ["-c3", "file1", "file2"]), expectedOutput);
   });
 
   it("should return first line of each file", function() {
-    let expOut =
+    let expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(runHead(dummyFS, ["-1", "file1", "file2"]), expOut);
+    deepEqual(runHead(dummyFS, ["-1", "file1", "file2"]), expectedOutput);
   });
 
   it("should return error messages for the following", function() {
-    let expOut = "head: file4: No such file or directory";
-    deepEqual(runHead(dummyFS, ["file4"]), expOut);
-    expOut =
+    let expectedOutput = "head: file4: No such file or directory";
+    deepEqual(runHead(dummyFS, ["file4"]), expectedOutput);
+    expectedOutput =
       "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]";
-    deepEqual(runHead(dummyFS, ["-g4", "file1"]), expOut);
-    expOut = "head: illegal line count -- 0";
-    deepEqual(runHead(dummyFS, ["-n0", "file1"]), expOut);
-    expOut = "head: illegal byte count -- 0";
-    deepEqual(runHead(dummyFS, ["-c0", "file1"]), expOut);
+    deepEqual(runHead(dummyFS, ["-g4", "file1"]), expectedOutput);
+    expectedOutput = "head: illegal line count -- 0";
+    deepEqual(runHead(dummyFS, ["-n0", "file1"]), expectedOutput);
+    expectedOutput = "head: illegal byte count -- 0";
+    deepEqual(runHead(dummyFS, ["-c0", "file1"]), expectedOutput);
   });
 });
 
@@ -248,7 +248,7 @@ describe("runCommandOnFiles", function() {
     content: "this is a file content",
     exists: true
   };
-  let expOut =
+  let expectedOutput =
     "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
   it("should return all of the file contents for an input of multiple files", function() {
     deepEqual(
@@ -258,11 +258,11 @@ describe("runCommandOnFiles", function() {
         count: "10",
         files: ["file1", "file2"]
       }),
-      expOut
+      expectedOutput
     );
   });
   it("should return all of the file contents for an input of multiple files", function() {
-    expOut = "==> file1 <==\nle content\n\n==> file2 <==\nle content";
+    expectedOutput = "==> file1 <==\nle content\n\n==> file2 <==\nle content";
     deepEqual(
       runCommandOnFiles([file1, file2], {
         option: "c",
@@ -270,7 +270,7 @@ describe("runCommandOnFiles", function() {
         command: "tail",
         files: ["file1", "file2"]
       }),
-      expOut
+      expectedOutput
     );
   });
 });
@@ -289,13 +289,13 @@ describe("runTail", function() {
   });
 
   it("should return error messages for the following", function() {
-    let expOut = "tail: file4: No such file or directory";
-    deepEqual(runTail(dummyFS, ["file4"]), expOut);
-    expOut =
+    let expectedOutput = "tail: file4: No such file or directory";
+    deepEqual(runTail(dummyFS, ["file4"]), expectedOutput);
+    expectedOutput =
       "tail: illegal option -- t\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
-    deepEqual(runTail(dummyFS, ["-t", "file1"]), expOut);
-    expOut = "tail: illegal offset -- r";
-    deepEqual(runTail(dummyFS, ["-nr", "file1"]), expOut);
+    deepEqual(runTail(dummyFS, ["-t", "file1"]), expectedOutput);
+    expectedOutput = "tail: illegal offset -- r";
+    deepEqual(runTail(dummyFS, ["-nr", "file1"]), expectedOutput);
   });
 });
 
@@ -324,7 +324,7 @@ describe("selectCrntFileData", function() {
       exists: true,
       content: "this is file content"
     };
-    let expOut = {
+    let expectedOutput = {
       contentOfFiles: ["nt"],
       delimiter: "",
       params: { option: "c", count: "2", command: "tail", files: ["file1"] }
@@ -334,7 +334,7 @@ describe("selectCrntFileData", function() {
         { contentOfFiles: [], delimiter: "", params },
         fileDetails
       ),
-      expOut
+      expectedOutput
     );
   });
 });
