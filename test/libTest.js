@@ -21,7 +21,7 @@ describe("selectTopLines", function() {
       );
     });
 
-    it("should return top 10 lines of a string", function() {
+    it("should return top 1 lines of a string", function() {
       deepEqual(selectTopLines(inputString, 1), "1");
     });
 
@@ -121,7 +121,7 @@ dummyFS = {
 };
 
 describe("getFileDetails", function() {
-  it("should return a true exists and contents in an object of 0 th index of array for an inpput of one file", function() {
+  it("should return a true exists and contents in an object of 0 th index of array for an input of one file", function() {
     deepEqual(getFileDetails(dummyFS, ["file1"]), [directory.file1]);
     deepEqual(getFileDetails(dummyFS, ["file2"]), [directory.file2]);
     deepEqual(getFileDetails(dummyFS, ["file3"]), [directory.file3]);

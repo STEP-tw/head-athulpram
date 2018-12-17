@@ -5,8 +5,6 @@ const { deepEqual, equal } = require("assert");
 describe("isNaturalNumber", () => {
   it("should return true for all positive numbers", () => {
     deepEqual(isNaturalNumber(1), true);
-    deepEqual(isNaturalNumber(2), true);
-    deepEqual(isNaturalNumber(3), true);
   });
 
   it("should return false for an input of 0", () => {
@@ -15,7 +13,6 @@ describe("isNaturalNumber", () => {
 
   it("should return false for an input of negative count", () => {
     deepEqual(!isNaturalNumber(-1), true);
-    deepEqual(!isNaturalNumber(-2), true);
   });
 });
 
@@ -24,4 +21,7 @@ describe("reverseContents", () => {
     deepEqual(reverseContents("abcdefghijklm"), "mlkjihgfedcba");
     deepEqual(reverseContents("1234"), "4321");
   });
+  it("should return an empty string for an input of empty string",()=>{
+    deepEqual(reverseContents(""),"");
+  })
 });

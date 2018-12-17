@@ -61,7 +61,7 @@ describe("parseInput", function() {
     });
   });
 
-  it("should return an object of type c and count of givrn balue for passing input", function() {
+  it("should return an object of type c and count of given value for passing input", function() {
     deepEqual(parseInput(["-c1", "file.txt", "file2.txt"]), {
       type: "c",
       count: 1,
