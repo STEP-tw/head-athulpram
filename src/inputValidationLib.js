@@ -1,4 +1,4 @@
-const { isNaturalNumber } = require("./utils/numberUtils");
+const { isNaturalNumber, isInteger } = require("./utils/numberUtils");
 const { errorMessages } = require("./errorLib.js");
 const validateCount = function({ count, option }) {
   optionCountName = {
@@ -32,7 +32,7 @@ const validateTailParameters = function(tailParams) {
   if (validateOptionResult.status) {
     return validateOptionResult;
   }
-  if (isNaN(tailParams.count)) {
+  if (!isInteger(tailParams.count)) {
     message = errorMessages.tail.illegalOffset + tailParams.count;
     status = true;
   }
@@ -55,7 +55,7 @@ const validateHeadParameters = function(headParams) {
   return { status, message };
 };
 const validateHeadCount = function(count) {
-  return isNaturalNumber(count) && !isNaN(count);
+  return isNaturalNumber(count);
 };
 
 module.exports = {
