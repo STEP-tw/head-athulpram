@@ -1,10 +1,13 @@
 const { parseValidatedInput } = require("./inputLib.js");
 const { reverseContents, errorMessages } = require("./utilLib.js");
-const { selectTopLines, selectFirstNBytes } = require("./utils/stringUtils.js");
+const {
+  extractTopLines,
+  extractFirstNBytes
+} = require("./utils/stringUtils.js");
 const findSelectFunction = function(option) {
   let headOptions = {
-    n: selectTopLines,
-    c: selectFirstNBytes
+    n: extractTopLines,
+    c: extractFirstNBytes
   };
   return headOptions[option];
 };
