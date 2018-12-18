@@ -1,4 +1,5 @@
-const { errorMessages, isNaturalNumber } = require("./utilLib.js");
+const { isNaturalNumber } = require("./utils/numberUtils");
+const { errorMessages } = require("./errorLib.js");
 const validateCount = function({ count, option }) {
   optionCountName = {
     c: "byte",

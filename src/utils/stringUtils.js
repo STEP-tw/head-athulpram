@@ -9,7 +9,16 @@ const extractFirstNBytes = function(fileContents, numberOfBytes) {
   return fileContents.slice(0, numberOfBytes).join("");
 };
 
+const reverseContents = function(content) {
+  return content
+    .trim()
+    .split("")
+    .reverse()
+    .join("");
+};
+
 module.exports = {
   extractFirstNBytes,
-  extractTopLines
+  extractTopLines,
+  reverseContents
 };

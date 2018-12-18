@@ -1,6 +1,7 @@
 const { parseValidatedInput } = require("./inputLib.js");
-const { reverseContents, errorMessages } = require("./utilLib.js");
+const { errorMessages } = require("./errorLib.js");
 const {
+  reverseContents,
   extractTopLines,
   extractFirstNBytes
 } = require("./utils/stringUtils.js");

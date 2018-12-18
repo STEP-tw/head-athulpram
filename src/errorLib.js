@@ -11,19 +11,6 @@ const errorMessages = {
   noFile: ": No such file or directory"
 };
 
-const isNaturalNumber = function(count) {
-  return count > 0 && count % 1 == 0;
-};
-
-const reverseContents = function(content) {
-  return content
-    .trim()
-    .split("")
-    .reverse()
-    .join("");
-};
 module.exports = {
-  isNaturalNumber,
-  reverseContents,
   errorMessages
 };

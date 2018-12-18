@@ -1,6 +1,7 @@
 const {
   extractTopLines,
-  extractFirstNBytes
+  extractFirstNBytes,
+  reverseContents
 } = require("../src/utils/stringUtils.js");
 const { deepEqual } = require("assert");
 
@@ -53,4 +54,14 @@ describe("extractFirstNBytes", function() {
     expectedOutput = "";
     deepEqual(extractFirstNBytes("", 5), expectedOutput);
   });
+});
+
+describe("reverseContents", () => {
+    it("should return reverse of given string", () => {
+        deepEqual(reverseContents("abcdefghijklm"), "mlkjihgfedcba");
+        deepEqual(reverseContents("1234"), "4321");
+    });
+    it("should return an empty string for an input of empty string", () => {
+        deepEqual(reverseContents(""), "");
+    })
 });
