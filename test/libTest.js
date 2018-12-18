@@ -1,6 +1,4 @@
 const {
-  selectTopLines,
-  selectFirstNBytes,
   getFileDetails,
   findSelectFunction,
   runHead,
@@ -9,39 +7,6 @@ const {
   runTail
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
-
-describe("selectTopLines", function() {
-  describe("select top lines based on number of lines", function() {
-    let inputString = "1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n 10\n 11\n";
-
-    it("should return top 10 lines of a string", function() {
-      deepEqual(
-        selectTopLines(inputString, 10),
-        "1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n 10"
-      );
-    });
-
-    it("should return top 1 lines of a string", function() {
-      deepEqual(selectTopLines(inputString, 1), "1");
-    });
-
-    it("should return empty string when number of lines is 0", function() {
-      deepEqual(selectTopLines(inputString, 0), "");
-    });
-  });
-});
-
-describe("selectFirstNBytes", function() {
-  let inputString = "this is first line \n this is second line";
-  it("should return first 5 bytes for the input of 5 number of bytes", function() {
-    deepEqual(selectFirstNBytes(inputString, 5), "this ");
-    deepEqual(selectFirstNBytes(inputString, 15), "this is first l");
-  });
-
-  it("should return empty string when 0 byte number is given", function() {
-    deepEqual(selectFirstNBytes(inputString, 0), "");
-  });
-});
 
 describe("runCommandOnFiles", function() {
   it("should return all of file contents for an input of file details with single line", function() {
@@ -164,15 +129,6 @@ describe("getFileDetails", function() {
         { name: "file2", exists: true, content: "This is file 2" })
       ]
     );
-  });
-});
-
-describe("findSelectFunction", function() {
-  it("should return function selectTopLines", function() {
-    deepEqual(findSelectFunction("n"), selectTopLines);
-  });
-  it("should return function selectFirstNBytes", function() {
-    deepEqual(findSelectFunction("c"), selectFirstNBytes);
   });
 });
 

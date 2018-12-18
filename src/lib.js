@@ -1,17 +1,6 @@
 const { parseValidatedInput } = require("./inputLib.js");
 const { reverseContents, errorMessages } = require("./utilLib.js");
-
-const selectTopLines = function(fileContents, numberOfLines) {
-  fileContents.trim();
-  fileContents = fileContents.split("\n");
-  return fileContents.slice(0, numberOfLines).join("\n");
-};
-
-const selectFirstNBytes = function(fileContents, numberOfBytes) {
-  fileContents = fileContents.split("");
-  return fileContents.slice(0, numberOfBytes).join("");
-};
-
+const { selectTopLines, selectFirstNBytes } = require("./utils/stringUtils.js");
 const findSelectFunction = function(option) {
   let headOptions = {
     n: selectTopLines,
@@ -117,8 +106,6 @@ const runTail = function(fs, inputArgs) {
 };
 
 module.exports = {
-  selectTopLines,
-  selectFirstNBytes,
   runHead,
   getFileDetails,
   findSelectFunction,

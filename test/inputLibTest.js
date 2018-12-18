@@ -1,12 +1,4 @@
-const {
-  parseInput,
-  validateCount,
-  validateOption,
-  validateHeadCount,
-  validateTailParameters,
-  validateHeadParameters,
-  parseValidatedInput
-} = require("../src/inputLib.js");
+const { parseInput, parseValidatedInput } = require("../src/inputLib.js");
 const { deepEqual } = require("assert");
 
 describe("parseInput", function() {

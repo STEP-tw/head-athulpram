@@ -50,6 +50,5 @@ const parseWithOptions = function(headParams) {
 
 module.exports = {
   parseInput,
-  createParameterObject,
   parseValidatedInput
 };
