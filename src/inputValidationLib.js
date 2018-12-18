@@ -1,6 +1,6 @@
 const { isNaturalNumber, isInteger } = require("./utils/numberUtils");
 const { errorMessages } = require("./errorLib.js");
-const validateCount = function({ count, option }) {
+const validHeadCount = function({ count, option }) {
   optionCountName = {
     c: "byte",
     n: "line"
@@ -28,9 +28,9 @@ const validateOption = function({ option, command }) {
 const validateTailParameters = function(tailParams) {
   let message = "";
   let status = false;
-  let validateOptionResult = validateOption(tailParams);
-  if (validateOptionResult.status) {
-    return validateOptionResult;
+  let optionValidationResult = validateOption(tailParams);
+  if (optionValidationResult.status) {
+    return optionValidationResult;
   }
   if (!isInteger(tailParams.count)) {
     message = errorMessages.tail.illegalOffset + tailParams.count;
@@ -47,7 +47,7 @@ const validateHeadParameters = function(headParams) {
     return optionValidationResult;
   }
 
-  countValidation = validateCount(headParams);
+  countValidation = validHeadCount(headParams);
   if (!countValidation.status) {
     message = countValidation.message;
     status = true;
