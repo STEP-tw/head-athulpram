@@ -53,7 +53,7 @@ const runCommandOnFiles = function(fileDetails, params) {
 const head = function(headParams, delimiter, name, content, selectContents) {
   let currentFileContent = "";
   if (headParams.files.length > 1) {
-    currentFileContent = delimiter + "==> " + name + " <==\n";
+    currentFileContent = delimiter + generateFileHeader(name);
     delimiter = "\n";
   }
   currentFileContent += selectContents(content, headParams.count);
@@ -85,10 +85,14 @@ const selectCrntFileData = function(
   return { contentOfFiles, delimiter, params };
 };
 
+const generateFileHeader = function(fileName) {
+  return "==> " + fileName + " <==\n";
+};
+
 const tail = function(tailParams, delimiter, name, content, selectContents) {
   let currentFileContent = "";
   if (tailParams.files.length > 1) {
-    currentFileContent = delimiter + "==> " + name + " <==\n";
+    currentFileContent = delimiter + generateFileHeader(name);
     delimiter = "\n";
   }
   let reversedContent = reverseContents(content);
