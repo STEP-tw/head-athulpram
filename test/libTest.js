@@ -1,59 +1,11 @@
 const {
   getFileDetails,
-  findSelectFunction,
   runHead,
   runCommandOnFiles,
-  selectCrntFileData,
+  extractFileData,
   runTail
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
-
-describe("runCommandOnFiles", function() {
-  it("should return all of file contents for an input of file details with single line", function() {
-    deepEqual(
-      runCommandOnFiles(
-        [{ name: "file1", content: "This is a file", exists: true }],
-        { option: "n", count: "10", files: ["file1"], command: "head" }
-      ),
-      "This is a file"
-    );
-  });
-  let file1 = {
-    name: "file1",
-    content: "This is a file content \n this is a file content",
-    exists: true
-  };
-  let file2 = {
-    name: "file2",
-    content: "this is a file content",
-    exists: true
-  };
-  let expectedOutput =
-    "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
-  it("should return all of the file contents for an input of multiple files", function() {
-    deepEqual(
-      runCommandOnFiles([file1, file2], {
-        option: "n",
-        count: "10",
-        command: "head",
-        files: ["file1", "file2"]
-      }),
-      expectedOutput
-    );
-  });
-  it("should return all of the file contents for an input of multiple files", function() {
-    expectedOutput = "==> file1 <==\nThis is a \n\n==> file2 <==\nthis is a ";
-    deepEqual(
-      runCommandOnFiles([file1, file2], {
-        option: "c",
-        count: "10",
-        command: "head",
-        files: ["file1", "file2"]
-      }),
-      expectedOutput
-    );
-  });
-});
 
 //Testing functions which takes fs as argument
 
@@ -178,59 +130,6 @@ describe("runHead", function() {
   });
 });
 
-describe("runCommandOnFiles", function() {
-  it("should return all of file contents for an input of file details with single line", function() {
-    deepEqual(
-      runCommandOnFiles(
-        [{ name: "file1", content: "This is a file", exists: true }],
-        {
-          option: "n",
-          count: "10",
-          files: ["file1"],
-          command: "tail"
-        }
-      ),
-      "This is a file"
-    );
-  });
-
-  let file1 = {
-    name: "file1",
-    content: "This is a file content \n this is a file content",
-    exists: true
-  };
-  let file2 = {
-    name: "file2",
-    content: "this is a file content",
-    exists: true
-  };
-  let expectedOutput =
-    "==> file1 <==\nThis is a file content \n this is a file content\n\n==> file2 <==\nthis is a file content";
-  it("should return all of the file contents for an input of multiple files", function() {
-    deepEqual(
-      runCommandOnFiles([file1, file2], {
-        option: "n",
-        command: "tail",
-        count: "10",
-        files: ["file1", "file2"]
-      }),
-      expectedOutput
-    );
-  });
-  it("should return all of the file contents for an input of multiple files", function() {
-    expectedOutput = "==> file1 <==\nle content\n\n==> file2 <==\nle content";
-    deepEqual(
-      runCommandOnFiles([file1, file2], {
-        option: "c",
-        count: "10",
-        command: "tail",
-        files: ["file1", "file2"]
-      }),
-      expectedOutput
-    );
-  });
-});
-
 describe("runTail", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
     deepEqual(runTail(["file1"], dummyFS), "This is a test file");
@@ -255,10 +154,10 @@ describe("runTail", function() {
   });
 });
 
-describe("selectCrntFileData", function() {
+describe("extractFileData", function() {
   it("should return an object with content of files delimiter and params", function() {
     deepEqual(
-      selectCrntFileData(
+      extractFileData(
         {
           contentOfFiles: [],
           delimiter: "",
@@ -286,7 +185,7 @@ describe("selectCrntFileData", function() {
       params: { option: "c", count: "2", command: "tail", files: ["file1"] }
     };
     deepEqual(
-      selectCrntFileData(
+      extractFileData(
         { contentOfFiles: [], delimiter: "", params },
         fileDetails
       ),

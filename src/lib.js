@@ -42,7 +42,7 @@ const getFileDetails = function(fs, headParams, command) {
 const runCommandOnFiles = function(fileDetails, params) {
   let contentOfFiles = [];
   let delimiter = "";
-  contentOfFiles = fileDetails.reduce(selectCrntFileData, {
+  contentOfFiles = fileDetails.reduce(extractFileData, {
     contentOfFiles: [],
     delimiter,
     params
@@ -60,7 +60,7 @@ const head = function(headParams, delimiter, name, content, selectContents) {
   return { currentFileContent, delimiter };
 };
 
-const selectCrntFileData = function(
+const extractFileData = function(
   { contentOfFiles, delimiter, params },
   { name, exists, content }
 ) {
@@ -120,5 +120,5 @@ module.exports = {
   runTail,
   tail,
   runCommandOnFiles,
-  selectCrntFileData
+  extractFileData
 };
