@@ -1,13 +1,10 @@
 const {
   getFileDetails,
   runHead,
-  runCommandOnFiles,
   extractFileData,
   runTail
 } = require("../src/lib.js");
 const { deepEqual } = require("assert");
-
-//Testing functions which takes fs as argument
 
 const createFile = function(name, content) {
   return {
@@ -20,7 +17,8 @@ const createFile = function(name, content) {
 let directory = {
   file1: createFile("file1", "This is a test file"),
   file2: createFile("file2", "This is file 2"),
-  file3: createFile("file3", "This is third file \n With 2 lines of content")
+  file3: createFile("file3", "This is third file \n With 2 lines of content"),
+  file10: createFile("file10", "1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n")
 };
 
 dummyFS = {
@@ -86,8 +84,7 @@ describe("getFileDetails", function() {
 
 describe("runHead", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
-    deepEqual(runHead(["file1"], dummyFS), "This is a test file");
-    deepEqual(runHead(["file2"], dummyFS), "This is file 2");
+    deepEqual(runHead(["file10"], dummyFS), "1\n2\n3\n4\n5\n6\n7\n8\n9\n10");
   });
 
   it("should return content of multiple files with default arguments", function() {
@@ -117,14 +114,21 @@ describe("runHead", function() {
     deepEqual(runHead(["-1", "file1", "file2"], dummyFS), expectedOutput);
   });
 
-  it("should return error messages for the following", function() {
+  it("should return error messages for the file not found", function() {
     let expectedOutput = "head: file4: No such file or directory";
     deepEqual(runHead(["file4"], dummyFS), expectedOutput);
+  });
+
+  it("should return illegal option error and usagecases", () => {
     expectedOutput =
       "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]";
     deepEqual(runHead(["-g4", "file1"], dummyFS), expectedOutput);
+  });
+  it("should reuturn illegal line count for zero input in head", () => {
     expectedOutput = "head: illegal line count -- 0";
     deepEqual(runHead(["-n0", "file1"], dummyFS), expectedOutput);
+  });
+  it("should reuturn illegal byte count error", () => {
     expectedOutput = "head: illegal byte count -- 0";
     deepEqual(runHead(["-c0", "file1"], dummyFS), expectedOutput);
   });
