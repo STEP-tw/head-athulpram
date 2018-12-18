@@ -5,7 +5,7 @@ const {
   extractTopLines,
   extractFirstNBytes
 } = require("./utils/stringUtils.js");
-const findSelectFunction = function(option) {
+const findExtractFunction = function(option) {
   let headOptions = {
     n: extractTopLines,
     c: extractFirstNBytes
@@ -68,7 +68,7 @@ const selectCrntFileData = function(
     head: head,
     tail: tail
   };
-  let selectContents = findSelectFunction(params.option);
+  let selectContents = findExtractFunction(params.option);
   contentOfFiles.push(content);
   if (exists) {
     contentOfFiles.pop(content);
@@ -116,7 +116,7 @@ const runTail = function(fs, inputArgs) {
 module.exports = {
   runHead,
   getFileDetails,
-  findSelectFunction,
+  findExtractFunction,
   runTail,
   tail,
   runCommandOnFiles,
