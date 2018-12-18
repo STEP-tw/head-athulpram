@@ -13,7 +13,7 @@ const findExtractFunction = function(option) {
   return headOptions[option];
 };
 
-const runHead = function(fs, inputArgs) {
+const runHead = function(inputArgs, fs) {
   let headParams = parseValidatedInput(inputArgs, "head");
   headParams.command = "head";
   fileDetails = getFileDetails(fs, headParams.files, "head");
@@ -101,7 +101,7 @@ const tail = function(tailParams, delimiter, name, content, selectContents) {
   return { currentFileContent, delimiter };
 };
 
-const runTail = function(fs, inputArgs) {
+const runTail = function(inputArgs, fs) {
   let tailParams = parseValidatedInput(inputArgs, "tail");
   tailParams.command = "tail";
   fileDetails = getFileDetails(fs, tailParams.files, "tail");

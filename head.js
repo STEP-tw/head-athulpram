@@ -2,7 +2,7 @@ const fs = require("fs");
 const { runHead } = require("./src/lib.js");
 
 const main = function() {
-  console.log(runHead(fs, process.argv.slice(2)));
+  console.log(runHead(process.argv.slice(2), fs));
 };
 main();
 /* 

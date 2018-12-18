@@ -134,47 +134,47 @@ describe("getFileDetails", function() {
 
 describe("runHead", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
-    deepEqual(runHead(dummyFS, ["file1"]), "This is a test file");
-    deepEqual(runHead(dummyFS, ["file2"]), "This is file 2");
+    deepEqual(runHead(["file1"], dummyFS), "This is a test file");
+    deepEqual(runHead(["file2"], dummyFS), "This is file 2");
   });
 
   it("should return content of multiple files with default arguments", function() {
     let expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(runHead(dummyFS, ["file1", "file2"]), expectedOutput);
+    deepEqual(runHead(["file1", "file2"], dummyFS), expectedOutput);
 
     expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file3 <==\nThis is third file \n With 2 lines of content";
-    deepEqual(runHead(dummyFS, ["file1", "file3"]), expectedOutput);
+    deepEqual(runHead(["file1", "file3"], dummyFS), expectedOutput);
   });
 
   it("should return content of file with input of n and line numbers", function() {
     let expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(runHead(dummyFS, ["-n3", "file1", "file2"]), expectedOutput);
+    deepEqual(runHead(["-n3", "file1", "file2"], dummyFS), expectedOutput);
   });
 
   it("should return content of the file with input of c and byte count", function() {
     let expectedOutput = "==> file1 <==\nThi\n\n==> file2 <==\nThi";
-    deepEqual(runHead(dummyFS, ["-c3", "file1", "file2"]), expectedOutput);
+    deepEqual(runHead(["-c3", "file1", "file2"], dummyFS), expectedOutput);
   });
 
   it("should return first line of each file", function() {
     let expectedOutput =
       "==> file1 <==\nThis is a test file\n\n==> file2 <==\nThis is file 2";
-    deepEqual(runHead(dummyFS, ["-1", "file1", "file2"]), expectedOutput);
+    deepEqual(runHead(["-1", "file1", "file2"], dummyFS), expectedOutput);
   });
 
   it("should return error messages for the following", function() {
     let expectedOutput = "head: file4: No such file or directory";
-    deepEqual(runHead(dummyFS, ["file4"]), expectedOutput);
+    deepEqual(runHead(["file4"], dummyFS), expectedOutput);
     expectedOutput =
       "head: illegal option -- g\nusage: head [-n lines | -c bytes] [file ...]";
-    deepEqual(runHead(dummyFS, ["-g4", "file1"]), expectedOutput);
+    deepEqual(runHead(["-g4", "file1"], dummyFS), expectedOutput);
     expectedOutput = "head: illegal line count -- 0";
-    deepEqual(runHead(dummyFS, ["-n0", "file1"]), expectedOutput);
+    deepEqual(runHead(["-n0", "file1"], dummyFS), expectedOutput);
     expectedOutput = "head: illegal byte count -- 0";
-    deepEqual(runHead(dummyFS, ["-c0", "file1"]), expectedOutput);
+    deepEqual(runHead(["-c0", "file1"], dummyFS), expectedOutput);
   });
 });
 
@@ -233,25 +233,25 @@ describe("runCommandOnFiles", function() {
 
 describe("runTail", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
-    deepEqual(runTail(dummyFS, ["file1"]), "This is a test file");
-    deepEqual(runTail(dummyFS, ["file2"]), "This is file 2");
+    deepEqual(runTail(["file1"], dummyFS), "This is a test file");
+    deepEqual(runTail(["file2"], dummyFS), "This is file 2");
   });
 
   it("should return a false exists and content as error message for file not found", function() {
     deepEqual(
-      runTail(dummyFS, ["file4"]),
+      runTail(["file4"], dummyFS),
       "tail: file4: No such file or directory"
     );
   });
 
   it("should return error messages for the following", function() {
     let expectedOutput = "tail: file4: No such file or directory";
-    deepEqual(runTail(dummyFS, ["file4"]), expectedOutput);
+    deepEqual(runTail(["file4"], dummyFS), expectedOutput);
     expectedOutput =
       "tail: illegal option -- t\nusage: tail [-F | -f | -r] [-q] [-b # | -c # | -n #] [file ...]";
-    deepEqual(runTail(dummyFS, ["-t", "file1"]), expectedOutput);
+    deepEqual(runTail(["-t", "file1"], dummyFS), expectedOutput);
     expectedOutput = "tail: illegal offset -- r";
-    deepEqual(runTail(dummyFS, ["-nr", "file1"]), expectedOutput);
+    deepEqual(runTail(["-nr", "file1"], dummyFS), expectedOutput);
   });
 });
 
