@@ -1,9 +1,4 @@
-const {
-  getFileDetails,
-  runHead,
-  extractFileData,
-  runTail
-} = require("../src/lib.js");
+const { runHead, extractFileData, runTail } = require("../src/lib.js");
 const { deepEqual } = require("assert");
 
 const createFile = function(name, content) {
@@ -35,56 +30,10 @@ dummyFS = {
   }
 };
 
-describe("getFileDetails", function() {
-  it("should return a true exists and contents in an object of 0 th index of array for an input of one file", function() {
-    deepEqual(getFileDetails(dummyFS, ["file1"]), [directory.file1]);
-    deepEqual(getFileDetails(dummyFS, ["file2"]), [directory.file2]);
-    deepEqual(getFileDetails(dummyFS, ["file3"]), [directory.file3]);
-  });
-  it("should return a true exists and contents in objects in an array for input of multiple files", function() {
-    deepEqual(getFileDetails(dummyFS, ["file1", "file2"], "head"), [
-      directory.file1,
-      directory.file2
-    ]);
-    deepEqual(getFileDetails(dummyFS, ["file2", "file3"], "head"), [
-      directory.file2,
-      directory.file3
-    ]);
-    deepEqual(getFileDetails(dummyFS, ["file1", "file2", "file3"], "head"), [
-      directory.file1,
-      directory.file2,
-      directory.file3
-    ]);
-  });
-
-  it("should return a false exists and content as error message for file not found", function() {
-    deepEqual(getFileDetails(dummyFS, ["file4"], "head"), [
-      {
-        name: "file4",
-        exists: false,
-        content: "head: file4: No such file or directory"
-      }
-    ]);
-  });
-
-  it("should return multiple objects with status according to file", function() {
-    deepEqual(
-      getFileDetails(dummyFS, ["file1", "file4", "file2"], "head")[
-        ({ name: "file1", exists: true, content: "This is a test file" },
-        {
-          name: "file4",
-          exists: false,
-          content: "head: file4: No such file or directory"
-        },
-        { name: "file2", exists: true, content: "This is file 2" })
-      ]
-    );
-  });
-});
-
 describe("runHead", function() {
   it("should return content of file with a maximum of 10 lines  - default values", function() {
-    deepEqual(runHead(["file10"], dummyFS), "1\n2\n3\n4\n5\n6\n7\n8\n9\n10");
+    let expectedOutput = "1\n2\n3\n4\n5\n6\n7\n8\n9\n10";
+    deepEqual(runHead(["file10"], dummyFS), expectedOutput);
   });
 
   it("should return content of multiple files with default arguments", function() {

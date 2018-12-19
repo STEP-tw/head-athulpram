@@ -1,42 +1,17 @@
 const { parseValidatedInput } = require("./inputLib.js");
-const { errorMessages } = require("./errorLib.js");
 const {
   reverseContents,
   extractTopLines,
   extractFirstNBytes
 } = require("./utils/stringUtils.js");
+const { getFileDetails } = require("./fileLib.js");
+
 const findExtractFunction = function(option) {
   let headOptions = {
     n: extractTopLines,
     c: extractFirstNBytes
   };
   return headOptions[option];
-};
-
-const runHead = function(inputArgs, fs) {
-  let headParams = parseValidatedInput(inputArgs, "head");
-  headParams.command = "head";
-  let fileDetails = getFileDetails(fs, headParams.files, "head");
-
-  if (!headParams.isValid) {
-    return headParams.message;
-  }
-  return (headOfFiles = runCommandOnFiles(fileDetails, headParams));
-};
-
-const getFileDetails = function(fs, headParams, command) {
-  return headParams.map(file => {
-    fileDetails = {
-      name: file,
-      exists: false,
-      content: command + ": " + file + errorMessages.noFile
-    };
-    if (fs.existsSync(file)) {
-      fileDetails.exists = true;
-      fileDetails.content = fs.readFileSync(file, "utf-8");
-    }
-    return fileDetails;
-  });
 };
 
 const runCommandOnFiles = function(fileDetails, params) {
@@ -75,12 +50,11 @@ const extractFileData = function(
   contentOfFiles.push(content);
   if (exists) {
     contentOfFiles.pop(content);
-    let currentFileContents = commandFunction[params.command](params, {
-      delimiter,
-      name,
-      content,
-      selectContents
-    });
+    let formatDetails = { delimiter, name, content, selectContents };
+    let currentFileContents = commandFunction[params.command](
+      params,
+      formatDetails
+    );
     contentOfFiles.push(currentFileContents.currentFileContent);
     delimiter = currentFileContents.delimiter;
   }
@@ -118,10 +92,19 @@ const runTail = function(inputArgs, fs) {
   return runCommandOnFiles(fileDetails, tailParams);
 };
 
+const runHead = function(inputArgs, fs) {
+  let headParams = parseValidatedInput(inputArgs, "head");
+  headParams.command = "head";
+  let fileDetails = getFileDetails(fs, headParams.files, "head");
+
+  if (!headParams.isValid) {
+    return headParams.message;
+  }
+  return (headOfFiles = runCommandOnFiles(fileDetails, headParams));
+};
+
 module.exports = {
   runHead,
-  getFileDetails,
-  findExtractFunction,
   runTail,
   tail,
   runCommandOnFiles,
