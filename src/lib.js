@@ -50,7 +50,10 @@ const runCommandOnFiles = function(fileDetails, params) {
   return contentOfFiles.join("\n");
 };
 
-const head = function(headParams, delimiter, name, content, selectContents) {
+const head = function(
+  headParams,
+  { delimiter, name, content, selectContents }
+) {
   let currentFileContent = "";
   if (headParams.files.length > 1) {
     currentFileContent = delimiter + generateFileHeader(name);
@@ -72,13 +75,12 @@ const extractFileData = function(
   contentOfFiles.push(content);
   if (exists) {
     contentOfFiles.pop(content);
-    let currentFileContents = commandFunction[params.command](
-      params,
+    let currentFileContents = commandFunction[params.command](params, {
       delimiter,
       name,
       content,
       selectContents
-    );
+    });
     contentOfFiles.push(currentFileContents.currentFileContent);
     delimiter = currentFileContents.delimiter;
   }
@@ -89,7 +91,10 @@ const generateFileHeader = function(fileName) {
   return "==> " + fileName + " <==\n";
 };
 
-const tail = function(tailParams, delimiter, name, content, selectContents) {
+const tail = function(
+  tailParams,
+  { delimiter, name, content, selectContents }
+) {
   let currentFileContent = "";
   if (tailParams.files.length > 1) {
     currentFileContent = delimiter + generateFileHeader(name);
