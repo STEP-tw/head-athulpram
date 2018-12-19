@@ -13,14 +13,16 @@ const parseInput = function(params) {
   return createParameterObject("n", 10, params);
 };
 
-const parseValidatedInput = function(usrArgs, command) {
-  let params = parseInput(usrArgs);
+const parseValidatedInput = function(usrArgs) {
+  let command = usrArgs[0];
+  let params = parseInput(usrArgs.slice(1));
   params.command = command;
   validateMethod = {
     head: validateHeadParameters,
     tail: validateTailParameters
   };
   let validatedResult = validateMethod[command](params);
+  params.count = Math.abs(params.count);
   params.isValid = !validatedResult.status;
   params.message = validatedResult.message;
   return params;

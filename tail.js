@@ -1,8 +1,8 @@
 const fs = require("fs");
-const { runTail } = require("./src/lib.js");
+const { runCommand } = require("./src/lib.js");
 
 const main = function() {
-  console.log(runTail(process.argv.slice(2), fs));
+  console.log(runCommand(["tail"].concat(process.argv.slice(2)), fs));
 };
 main();
 /* 

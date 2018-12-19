@@ -98,7 +98,7 @@ describe("parseValidatedInput", function() {
         isValid: true,
         message: ""
       };
-      deepEqual(parseValidatedInput(["fileName.txt"], "head"), expectedOutput);
+      deepEqual(parseValidatedInput(["head", "fileName.txt"]), expectedOutput);
     });
   });
 });

@@ -80,32 +80,18 @@ const tail = function(
   return { currentFileContent, delimiter };
 };
 
-const runTail = function(inputArgs, fs) {
-  let tailParams = parseValidatedInput(inputArgs, "tail");
-  tailParams.command = "tail";
-  let fileDetails = getFileDetails(fs, tailParams.files, "tail");
+const runCommand = function(inputArgs, fs) {
+  let params = parseValidatedInput(inputArgs);
+  let fileDetails = getFileDetails(fs, params.files, inputArgs[0]);
 
-  if (!tailParams.isValid) {
-    return tailParams.message;
+  if (!params.isValid) {
+    return params.message;
   }
-  tailParams.count = Math.abs(tailParams.count);
-  return runCommandOnFiles(fileDetails, tailParams);
-};
-
-const runHead = function(inputArgs, fs) {
-  let headParams = parseValidatedInput(inputArgs, "head");
-  headParams.command = "head";
-  let fileDetails = getFileDetails(fs, headParams.files, "head");
-
-  if (!headParams.isValid) {
-    return headParams.message;
-  }
-  return (headOfFiles = runCommandOnFiles(fileDetails, headParams));
+  return (headOfFiles = runCommandOnFiles(fileDetails, params));
 };
 
 module.exports = {
-  runHead,
-  runTail,
+  runCommand,
   tail,
   runCommandOnFiles,
   extractFileData
