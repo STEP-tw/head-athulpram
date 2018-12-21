@@ -1,0 +1,25 @@
+{
+  "name": "head-athulpram",
+  "version": "1.0.0",
+  "description": "head and tail using js",
+  "main": "head.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/head-athulpram.git"
+  },
+  "author": "Athul P R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/head-athulpram/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/head-athulpram#readme",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
